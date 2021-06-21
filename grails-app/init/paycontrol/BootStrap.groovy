@@ -27,7 +27,7 @@ class BootStrap {
         def existeRequestUser = Requestmap.findByUrl('/usuario/**')
 
         if(!existeRequestUser){
-            for (String url in ['/', '/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown','/**/js/**', '/**/css/**', '/**/images/**','/login', '/login.*', '/login/*','/logout', '/logout.*', '/logout/*']) {new Requestmap(url: url, configAttribute: 'permitAll').save()}
+            for (String url in ['/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown','/**/js/**', '/**/css/**', '/**/images/**','/login', '/login.*', '/login/*','/logout', '/logout.*', '/logout/*']) {new Requestmap(url: url, configAttribute: 'permitAll').save()}
 
             new Requestmap(url: '/assets/**', configAttribute: 'permitAll').save()
             new Requestmap(url: '/requestmap/**', configAttribute: 'permitAll').save()
