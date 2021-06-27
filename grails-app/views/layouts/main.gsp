@@ -1,70 +1,127 @@
 <!doctype html>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="en" class="no-js">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>
-        <g:layoutTitle default="Grails"/>
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
+    <title> <g:layoutTitle default="Grails"/> </title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <asset:stylesheet src="/css/bootstrap.min.css" ></asset:stylesheet>
+    <asset:stylesheet src="/css/mdb.min.css" ></asset:stylesheet>
+    <asset:stylesheet src="/css/style.min.css" ></asset:stylesheet>
 
-    <asset:stylesheet src="application.css"/>
-
-    <g:layoutHead/>
+    <style type="text/css">
+    .map-container{
+        overflow:hidden;
+        padding-bottom:56.25%;
+        position:relative;
+        height:0;
+    }
+    .map-container iframe{
+        left:0;
+        top:0;
+        height:100%;
+        width:100%;
+        position:absolute;
+    }
+    </style>
 </head>
 
-<body>
+<body class="grey lighten-3">
+<header>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar" style="background-color: #e3f2fd">
+        <div class="container-fluid">
+            <a class="navbar-brand waves-effect" href="/"> <strong class="blue-text">PAY CONTROL</strong> </a>
 
-<nav class="navbar navbar-expand-lg navbar-dark navbar-static-top" role="navigation">
-    <a class="navbar-brand" href="/#"><asset:image src="grails.svg" alt="Grails Logo"/></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <div class="collapse navbar-collapse" aria-expanded="false" style="height: 0.8px;" id="navbarContent">
-        <ul class="nav navbar-nav ml-auto">
-            <g:pageProperty name="page.nav"/>
-        </ul>
-    </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link waves-effect" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="javascript: void(0)">About MDB</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="javascript: void(0)">Free download</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="javascript: void(0)">Free tutorials</a>
+                    </li>
+                </ul>
 
-</nav>
+                <ul class="navbar-nav nav-flex-icons">
+                    <li class="nav-item">
+                        <a href="${createLink(controller: 'logout')}">
+                            <i class="fab fa-tasks"></i>Salir
+                        </a>
+                    </li>
+                </ul>
 
-<g:layoutBody/>
+            </div>
 
-<div class="footer row" role="contentinfo">
-    <div class="col">
-        <a href="http://guides.grails.org" target="_blank">
-            <asset:image src="advancedgrails.svg" alt="Grails Guides" class="float-left"/>
+        </div>
+    </nav>
+    <div class="sidebar-fixed position-fixed">
+        <a class="logo-wrapper waves-effect">
+            <img src="https://mdbootstrap.com/img/logo/mdb-email.png" class="img-fluid" alt="">
         </a>
-        <strong class="centered"><a href="http://guides.grails.org" target="_blank">Grails Guides</a></strong>
-        <p>Building your first Grails app? Looking to add security, or create a Single-Page-App? Check out the <a href="http://guides.grails.org" target="_blank">Grails Guides</a> for step-by-step tutorials.</p>
 
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item active waves-effect">
+                <i class="fas fa-chart-pie mr-3"></i>Dashboard
+            </a>
+            <a href="#" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-user mr-3"></i>Profile</a>
+            <a href="#" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-table mr-3"></i>Tables</a>
+            <a href="#" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-map mr-3"></i>Maps</a>
+            <a href="#" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-money-bill-alt mr-3"></i>Orders</a>
+        </div>
     </div>
-    <div class="col">
-        <a href="http://docs.grails.org" target="_blank">
-            <asset:image src="documentation.svg" alt="Grails Documentation" class="float-left"/>
-        </a>
-        <strong class="centered"><a href="http://docs.grails.org" target="_blank">Documentation</a></strong>
-        <p>Ready to dig in? You can find in-depth documentation for all the features of Grails in the <a href="http://docs.grails.org" target="_blank">User Guide</a>.</p>
+</header>
 
+
+
+<main class="pt-5 mx-lg-5">
+    <div class="container-fluid mt-5">
+        <g:layoutBody/>
     </div>
+</main>
 
-    <div class="col">
-        <a href="https://grails-slack.cfapps.io" target="_blank">
-            <asset:image src="slack.svg" alt="Grails Slack" class="float-left"/>
-        </a>
-        <strong class="centered"><a href="https://grails-slack.cfapps.io" target="_blank">Join the Community</a></strong>
-        <p>Get feedback and share your experience with other Grails developers in the community <a href="https://grails-slack.cfapps.io" target="_blank">Slack channel</a>.</p>
+
+
+
+
+
+
+
+
+<!--
+<footer class="page-footer text-center font-small primary-color-dark darken-2 mt-4 wow fadeIn">
+    <div class="footer-copyright py-3">
+        © 2019 Copyright:
+        <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> MDBootstrap.com </a>
     </div>
-</div>
+</footer>
+-->
+<asset:stylesheet src="application.css" ></asset:stylesheet>
 
-
-<div id="spinner" class="spinner" style="display:none;">
-    <g:message code="spinner.alt" default="Loading&hellip;"/>
-</div>
-
-<asset:javascript src="application.js"/>
+<asset:javascript src="/js/jquery-3.4.1.min.js"></asset:javascript>
+<asset:javascript src="/js/popper.min.js"></asset:javascript>
+<asset:javascript src="/js/bootstrap.min.js"></asset:javascript>
+<asset:javascript src="/js/mdb.min.js"></asset:javascript>
 
 </body>
 </html>
