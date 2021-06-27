@@ -31,11 +31,13 @@
                 <div class="alert alert-dark" role="alert">
                     Registros encontrados: <b>\${${propertyName}Count ?: 0}</b>
                 </div>
+                
+                <div class="table-responsive">
+                    <f:table collection="\${${propertyName}List}" />
 
-                <f:table collection="\${${propertyName}List}" />
-
-                <div class="pagination">
-                    <g:paginate total="\${${propertyName}Count ?: 0}" />
+                    <div class="pagination">
+                        <g:paginate total="\${${propertyName}Count ?: 0}" />
+                    </div>
                 </div>
             </div>
         </div>
