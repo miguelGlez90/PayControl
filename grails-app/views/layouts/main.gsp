@@ -43,18 +43,17 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link waves-effect" href="#">Home
-                        </a>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="${createLink(controller: 'lote')}">Lotes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link waves-effect" href="javascript: void(0)">About MDB</a>
+                        <a class="nav-link waves-effect" href="${createLink(controller: 'cobro')}">Cobros</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link waves-effect" href="javascript: void(0)">Free download</a>
+                        <a class="nav-link waves-effect" href="${createLink(controller: 'comprador')}">Compradores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link waves-effect" href="javascript: void(0)">Free tutorials</a>
+                        <a class="nav-link waves-effect" href="${createLink(controller: 'vendedor')}">Vendedores</a>
                     </li>
                 </ul>
 
@@ -105,10 +104,19 @@
 
 
 
+<br/><br/><br/><br/>
 
 
+<footer class="page-footer text-center font-small primary-color-dark darken-2 mt-4 wow fadeIn">
 
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+        © 2019 Copyright:
+        <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> MDBootstrap.com </a>
+    </div>
+    <!--/.Copyright-->
 
+</footer>
 
 <!--
 <footer class="page-footer text-center font-small primary-color-dark darken-2 mt-4 wow fadeIn">
@@ -124,6 +132,9 @@
 <asset:javascript src="/js/popper.min.js"></asset:javascript>
 <asset:javascript src="/js/bootstrap.min.js"></asset:javascript>
 <asset:javascript src="/js/mdb.min.js"></asset:javascript>
+<!-- Initializations -->
 
+// Animations initializatio
+<script type="text/javascript"> new WOW().init(); </script>
 </body>
 </html>
