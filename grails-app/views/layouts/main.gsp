@@ -12,7 +12,7 @@
     <asset:stylesheet src="/css/bootstrap.min.css" ></asset:stylesheet>
     <asset:stylesheet src="/css/mdb.min.css" ></asset:stylesheet>
     <asset:stylesheet src="/css/style.min.css" ></asset:stylesheet>
-
+    <asset:link rel="icon" href="homeIcon.ico.ico" type="image/x-ico"/>
     <style type="text/css">
     .map-container{
         overflow:hidden;
@@ -34,7 +34,7 @@
 <header>
     <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar" style="background-color: #e3f2fd">
         <div class="container-fluid">
-            <a class="navbar-brand waves-effect" href="/"> <strong class="blue-text">PAY CONTROL</strong> </a>
+            <a class="navbar-brand waves-effect" href="${createLink(uri: '/')}"> <strong class="blue-text">PAY CONTROL</strong> </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,6 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link waves-effect" href="#">Home
-                            <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -60,9 +59,9 @@
                 </ul>
 
                 <ul class="navbar-nav nav-flex-icons">
-                    <li class="nav-item">
+                    <li class="nav-item text-danger">
                         <a href="${createLink(controller: 'logout')}">
-                            <i class="fab fa-tasks"></i>Salir
+                            <i class="fas fa-times"></i> Salir
                         </a>
                     </li>
                 </ul>
@@ -71,9 +70,10 @@
 
         </div>
     </nav>
+
     <div class="sidebar-fixed position-fixed">
         <a class="logo-wrapper waves-effect">
-            <img src="https://mdbootstrap.com/img/logo/mdb-email.png" class="img-fluid" alt="">
+            <asset:image src="home4.png" alt="AdminLTE Logo" class="img-fluid"/>
         </a>
 
         <div class="list-group list-group-flush">
@@ -81,13 +81,15 @@
                 <i class="fas fa-chart-pie mr-3"></i>Dashboard
             </a>
             <a href="#" class="list-group-item list-group-item-action waves-effect">
-                <i class="fas fa-user mr-3"></i>Profile</a>
+                <i class="fas fa-money-bill-alt mr-3"></i>Cobro</a>
             <a href="#" class="list-group-item list-group-item-action waves-effect">
-                <i class="fas fa-table mr-3"></i>Tables</a>
+                <i class="fas fa-user mr-3"></i>Comparador</a>
             <a href="#" class="list-group-item list-group-item-action waves-effect">
-                <i class="fas fa-map mr-3"></i>Maps</a>
+                <i class="fas fa-file mr-3"></i>Contrado</a>
             <a href="#" class="list-group-item list-group-item-action waves-effect">
-                <i class="fas fa-money-bill-alt mr-3"></i>Orders</a>
+                <i class="fas fa-map mr-3"></i>Lote</a>
+            <a href="#" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-money-bill-alt mr-3"></i>Vendedor</a>
         </div>
     </div>
 </header>
