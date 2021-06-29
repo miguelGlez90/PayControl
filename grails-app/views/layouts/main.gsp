@@ -134,7 +134,6 @@
 <asset:javascript src="/js/mdb.min.js"></asset:javascript>
 <!-- Initializations -->
 
-// Animations initializatio
 <script type="text/javascript"> new WOW().init(); </script>
 </body>
 </html>
