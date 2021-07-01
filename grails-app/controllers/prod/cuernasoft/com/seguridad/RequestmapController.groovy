@@ -6,6 +6,7 @@ import static org.springframework.http.HttpStatus.*
 class RequestmapController {
 
     RequestmapService requestmapService
+    def springSecurityService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -35,6 +36,8 @@ class RequestmapController {
             return
         }
 
+        try{ springSecurityService.clearCachedRequestmaps() }catch(e){ }
+
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'requestmap.label', default: 'Requestmap'), requestmap.id])
@@ -61,6 +64,8 @@ class RequestmapController {
             return
         }
 
+        try{ springSecurityService.clearCachedRequestmaps() }catch(e){ }
+
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'requestmap.label', default: 'Requestmap'), requestmap.id])
@@ -77,6 +82,8 @@ class RequestmapController {
         }
 
         requestmapService.delete(id)
+
+        try{ springSecurityService.clearCachedRequestmaps() }catch(e){ }
 
         request.withFormat {
             form multipartForm {
