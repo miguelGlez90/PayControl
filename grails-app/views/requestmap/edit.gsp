@@ -12,6 +12,8 @@
                 <g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link>
                 <span>/</span>
                 <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+                <span>/</span>
+                Editar
             </h4>
         </div>
     </div>
