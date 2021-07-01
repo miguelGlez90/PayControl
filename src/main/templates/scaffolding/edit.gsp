@@ -9,11 +9,11 @@
     <div class="card mb-4 wow fadeIn animated" style="visibility: visible; animation-name: fadeIn;">
         <div class="card-body d-sm-flex justify-content-between">
             <h4 class="mb-2 mb-sm-0 pt-1">
-                Editar
-                <span>/</span>
                 <g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link>
                 <span>/</span>
                 <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+                <span>/</span>
+                Editar
             </h4>
         </div>
     </div>

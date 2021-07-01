@@ -11,8 +11,6 @@
     <div class="card mb-4 wow fadeIn animated" style="visibility: visible; animation-name: fadeIn;">
         <div class="card-body d-sm-flex justify-content-between">
             <h4 class="mb-2 mb-sm-0 pt-1">
-                Crear
-                <span>/</span>
                 <g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link>
                 <span>/</span>
                 <span><g:message code="default.create.label" args="[entityName]" /></span>
