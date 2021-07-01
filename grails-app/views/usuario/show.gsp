@@ -28,7 +28,7 @@
                     <div class="alert alert-info" role="alert">${flash.message}</div>
                 </g:if>
 
-                <f:display bean="usuario" />
+                <f:display bean="usuario" except="['password','accountExpired','accountLocked','passwordExpired','empresa']" />
                 <g:form resource="${this.usuario}" method="DELETE">
                     <fieldset class="buttons">
                         <g:link class="btn btn-outline-primary ripple-surface ripple-surface-dark" action="edit" resource="${this.usuario}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
@@ -36,6 +36,8 @@
                         <button type="submit"  class="btn btn-outline-danger ripple-surface ripple-surface-dark" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
                             <g:message code="default.button.delete.label" args="[entityName]"/>
                         </button>
+
+                        <g:link class="btn btn-outline-info ripple-surface ripple-surface-dark" action="editPassword" resource="${this.usuario}">Cambiar Constraseña</g:link>
                     </fieldset>
                 </g:form>
 

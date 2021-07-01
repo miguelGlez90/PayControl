@@ -18,6 +18,31 @@
         </div>
     </div>
 
+    <div class="col-lg-12 col-md-12 mb-12">
+        <div class="card">
+            <div class="card-header"># Buscador</div>
+            <div class="card-body">
+                <g:form action="index" method="post">
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="inputNombreCompleto">Nombre</label>
+                            <input type="text" name="nombreCompleto" id="inputNombreCompleto" class="form-control" value="${params?.nombreCompleto ? params?.nombreCompleto : ''}" placeholder="Nombre">
+                        </div>
+
+                        <div class="col">
+                            <label for="inputEnabled">Estatus</label>
+                            <g:select name="enabled" id="inputEnabled" from="${[[id: true, value: "Activo"],[id: false, value: "Inactivo"]]}" value="${params?.enabled}" class="form-control" optionKey="id" optionValue="value" noSelection="[null: '-Todos-']"></g:select>
+                        </div>
+
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </g:form>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+
 
     <div class="col-lg-12 col-md-12 mb-12">
         <div class="card">
@@ -33,10 +58,10 @@
                 </div>
                 
                 <div class="table-responsive">
-                    <f:table collection="${usuarioList}" />
+                    <f:table collection="${usuarioList}" except="['password', 'accountExpired','accountLocked','passwordExpired','empresa']" />
 
                     <div class="pagination">
-                        <g:paginate total="${usuarioCount ?: 0}" />
+                        <g:paginate total="${usuarioCount ?: 0}" params="[nombreCompleto: params?.nombreCompleto, enabled: params?.enabled]"/>
                     </div>
                 </div>
             </div>

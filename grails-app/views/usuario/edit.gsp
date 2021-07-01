@@ -9,6 +9,8 @@
     <div class="card mb-4 wow fadeIn animated" style="visibility: visible; animation-name: fadeIn;">
         <div class="card-body d-sm-flex justify-content-between">
             <h4 class="mb-2 mb-sm-0 pt-1">
+                Editar
+                <span>/</span>
                 <g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link>
                 <span>/</span>
                 <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
@@ -36,14 +38,49 @@
 
                 <g:form resource="${this.usuario}" method="PUT">
                     <g:hiddenField name="version" value="${this.usuario?.version}" />
-                    <fieldset class="form">
-                        <f:all bean="usuario"/>
-                    </fieldset>
-                    <fieldset class="buttons">
-                        <button type="submit"  class="btn btn-outline-secondary btn-rounded ripple-surface ripple-surface-dark">
-                            <g:message code="default.button.update.label" args="[entityName]"/>
-                        </button>
-                    </fieldset>
+
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="nombreCompleto">Nombre completo</label>
+                            <g:field type="text" id="nombreCompleto" name="nombreCompleto" class="form-control" value="${this.usuario?.nombreCompleto}" placeholder="Nombre completo" required="true" />
+                        </div>
+                        <div class="col">
+                            <label for="username">Usuario</label>
+                            <g:field type="text" id="username" name="username" class="form-control" value="${this.usuario?.username}" placeholder="username" required="true" />
+                        </div>
+                    </div>
+                    <br/>
+
+
+                    <br/><br/>
+                    <h3><i class="fas fa-tasks"></i> Seleccione los Roles</h3>
+                    <br/>
+
+                    <div class="form-row">
+                        <g:each in="${prod.cuernasoft.com.seguridad.Role.findAll([max: 100, sort: "authority", order: "asc", offset: 0])}" var="itRoles">
+                            <div class="form-group col-md-6">
+                                <label>${itRoles.authority}</label>
+                                <g:if test="${this.usuario?.getAuthorities()}">
+                                    <%def itemRender = false%>
+                                    <g:each in="${this.usuario?.getAuthorities()}" var="itParams">
+                                        <g:if test="${itParams?.id?.toString() == itRoles?.id?.toString()}">
+                                            <% itemRender = true %>
+                                            <g:checkBox name="iRoles" value="${itRoles?.id}" checked="true" />
+                                        </g:if>
+                                    </g:each>
+                                    <g:if test="${!itemRender}">
+                                        <g:checkBox name="iRoles" value="${itRoles?.id}" checked="false" />
+                                    </g:if>
+                                </g:if>
+                                <g:else>
+                                    <g:checkBox name="iRoles" value="${itRoles?.id}" checked="false" />
+                                </g:else>
+                            </div>
+                        </g:each>
+                    </div>
+                    <br/><br/>
+                    <input class="btn btn-outline-primary" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
+                    <g:link class="btn btn-outline-primary" action="editPassword" resource="${this.usuario}">Cambiar Constraseña</g:link>
                 </g:form>
             </div>
         </div>
