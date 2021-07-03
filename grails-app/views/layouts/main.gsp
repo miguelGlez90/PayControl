@@ -90,8 +90,6 @@
             <a href="#" class="list-group-item list-group-item-action waves-effect">
                 <i class="fas fa-money-bill-alt mr-3"></i>Vendedor</a>
         </div>
-
-        <div style="background-image: url('https://demo.dashboardpack.com/architectui-react-free/static/media/city1.ebc5562d.jpg');"></div>
     </div>
 </header>
 
