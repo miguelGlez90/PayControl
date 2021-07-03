@@ -70,7 +70,7 @@
         </div>
     </nav>
 
-    <div class="sidebar-fixed position-fixed">
+    <div class="sidebar-fixed position-fixed" style="background-image: linear-gradient(to right, #141e30, #243b55) !important; ">
         <a class="logo-wrapper waves-effect">
             <asset:image src="home4.png" alt="AdminLTE Logo" class="img-fluid"/>
         </a>
@@ -90,6 +90,8 @@
             <a href="#" class="list-group-item list-group-item-action waves-effect">
                 <i class="fas fa-money-bill-alt mr-3"></i>Vendedor</a>
         </div>
+
+        <div style="background-image: url('https://demo.dashboardpack.com/architectui-react-free/static/media/city1.ebc5562d.jpg');"></div>
     </div>
 </header>
 
