@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'cobro.label', default: 'Cobro')}" />
+        <g:set var="entityName" value="${message(code: 'lote.label', default: 'Lote')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -28,9 +28,9 @@
                     <div class="alert alert-info" role="alert">${flash.message}</div>
                 </g:if>
 
-                <g:hasErrors bean="${this.cobro}">
+                <g:hasErrors bean="${this.lote}">
                     <ul class="errors" role="alert">
-                        <g:eachError bean="${this.cobro}" var="error">
+                        <g:eachError bean="${this.lote}" var="error">
                             <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
                         </g:eachError>
                     </ul>
@@ -38,9 +38,9 @@
 
 
 
-                <g:form resource="${this.cobro}" method="POST">
+                <g:form resource="${this.lote}" method="POST">
                     <fieldset class="form">
-                        <f:all bean="cobro"/>
+                        <f:all bean="lote"/>
                     </fieldset>
                     <fieldset class="buttons">
                         <button type="submit"  class="btn btn-outline-secondary btn-rounded ripple-surface ripple-surface-dark">

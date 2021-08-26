@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'contrato.label', default: 'Contrato')}" />
+        <g:set var="entityName" value="${message(code: 'lote.label', default: 'Lote')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -29,14 +29,14 @@
                 </g:if>
 
                 <div class="alert alert-dark" role="alert">
-                    Registros encontrados: <b>${contratoCount ?: 0}</b>
+                    Registros encontrados: <b>${loteCount ?: 0}</b>
                 </div>
                 
                 <div class="table-responsive">
-                    <f:table collection="${contratoList}" />
+                    <f:table collection="${loteList}" />
 
                     <div class="pagination">
-                        <g:paginate total="${contratoCount ?: 0}" />
+                        <g:paginate total="${loteCount ?: 0}" />
                     </div>
                 </div>
             </div>

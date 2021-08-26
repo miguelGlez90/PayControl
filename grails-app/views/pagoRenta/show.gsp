@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'cobro.label', default: 'Cobro')}" />
+        <g:set var="entityName" value="${message(code: 'pagoRenta.label', default: 'PagoRenta')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -28,10 +28,10 @@
                     <div class="alert alert-info" role="alert">${flash.message}</div>
                 </g:if>
 
-                <f:display bean="cobro" />
-                <g:form resource="${this.cobro}" method="DELETE">
+                <f:display bean="pagoRenta" />
+                <g:form resource="${this.pagoRenta}" method="DELETE">
                     <fieldset class="buttons">
-                        <g:link class="btn btn-outline-primary ripple-surface ripple-surface-dark" action="edit" resource="${this.cobro}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                        <g:link class="btn btn-outline-primary ripple-surface ripple-surface-dark" action="edit" resource="${this.pagoRenta}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 
                         <button type="submit"  class="btn btn-outline-danger ripple-surface ripple-surface-dark" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
                             <g:message code="default.button.delete.label" args="[entityName]"/>
