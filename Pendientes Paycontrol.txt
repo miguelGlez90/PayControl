@@ -1,10 +1,12 @@
-****LOTE****
+
+
+****LOTE**** MIGUEL
 NUEVO: Ocultar Vendido, y por default es false.
 
 
 
 
-****COMPRADOR****
+****COMPRADOR****VALENTE
 NUEVO: 
 * Limitar a 10 caracteres el campo teléfono y solo aceptar Numeros.
 * Ocultar el campo Activo.
@@ -22,7 +24,7 @@ SHOW:
 
 
 
-****VENDEDOR****
+****VENDEDOR****MIGUEL
 NUEVO: 
 * Limitar a 13 caracteres el campo RFC 
 * Ocultar Empresa,  Fecha Alta y Activo.
@@ -36,7 +38,7 @@ SHOW:
 
 
 
-****CONTRATO****
+****CONTRATO****VALENTE
 Dividir Formulario en 2 columnas.
 
 NUEVO:
@@ -49,7 +51,7 @@ NUEVO:
 
 
 
-****COBROS****
+****COBROS****MIGUEL
 NUEVO:
 * Agregar un Buscador en el input Contrato, el cual busque de acuerdo al numero de contrato y comprador, Mostrar NumeroContrato - Comprador - DeudaActual
 
@@ -64,12 +66,12 @@ NUEVO:
 
 
 
-****TAREAS AUTOMATICAS****
+****TAREAS AUTOMATICAS****MIGUEL
 * Validación de Licencia.
 
 
 
-****PLANTILLA****
+****PLANTILLA****VALENTE
 NUEVO: Agregar BR antes de boton CREAR.
 
 EDITAR: Agregar Confirmacion para modificar el registro.
@@ -84,7 +86,7 @@ DATE INPUT: Falta agregar calendario en campos con fecha.
 
 
 
-******** DUDAS CLIENTE ********
+******** DUDAS CLIENTE ********MIGUEL
 * Preguntar como se va a formar el identificador del Lote, si es campo abierto o autogenerado por el sistema, si fuera asi, definir en base a que.
 
 * Preguntar como se va a formar el Numero del contrato, si es campo abierto o autogenerado por el sistema, si fuera asi, definir en base a que.
