@@ -15,4 +15,8 @@ class Comprador {
         domicilio (nullable: true, blank: true)
         telefono (nullable: true, blank: true)
     }
+    
+    String toString(){
+        return nombre
+    }
 }

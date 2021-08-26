@@ -1,0 +1,92 @@
+****LOTE****
+NUEVO: Ocultar Vendido, y por default es false.
+
+
+
+
+****COMPRADOR****
+NUEVO: 
+* Limitar a 10 caracteres el campo teléfono y solo aceptar Numeros.
+* Ocultar el campo Activo.
+* Ocultar el campo Empresa.
+* Ocultar el campo Fecha Alta.
+
+EDITAR: 
+* Limitar a 10 caracteres el campo teléfono y solo aceptar Numeros.
+* Ocultar el campo Empresa.
+* Ocultar el campo Fecha 
+
+SHOW:
+* Ocultar Empresa.
+
+
+
+
+****VENDEDOR****
+NUEVO: 
+* Limitar a 13 caracteres el campo RFC 
+* Ocultar Empresa,  Fecha Alta y Activo.
+
+EDITAR: 
+* Limitar a 13 caracteres el campo RFC 
+* Ocultar Empresa y Fecha Alta.
+
+SHOW:
+* Ocultar Empresa.
+
+
+
+****CONTRATO****
+Dividir Formulario en 2 columnas.
+
+NUEVO:
+* Autogenerar Numero (contrato)
+* Ocultar Deuda Actual, y enviar valor en 0.
+* Ocultar Empresa
+* Ocultar Abierto, enviar default True
+* Lotes, agregar un select multiple para seleccionar uno o más lotes con estatus VENDIDO false.
+* Mensualidad = (Costo - Enganche) / Plazo Compra
+
+
+
+****COBROS****
+NUEVO:
+* Agregar un Buscador en el input Contrato, el cual busque de acuerdo al numero de contrato y comprador, Mostrar NumeroContrato - Comprador - DeudaActual
+
+* En el campo Monto, al seleccionar el contrato, deberá cargar en automático el monto de la mensualidad correspondiente.
+
+* Forma de pago: Agregar combo, con catálogo predefinido en cod. duro para las formas de pago.
+
+
+* Ocultar Fecha y Empresa.
+
+* Al registrar el cobro, se debe descontar el MONTO del cobro del DEUDA ACTUAL del Contrato.
+
+
+
+****TAREAS AUTOMATICAS****
+* Validación de Licencia.
+
+
+
+****PLANTILLA****
+NUEVO: Agregar BR antes de boton CREAR.
+
+EDITAR: Agregar Confirmacion para modificar el registro.
+
+LIST: Alineación de botón QUITAR.
+
+SUBMENU:
+Revisar agregar iconos en las opciones (Nuevo, Listado.. etc)
+
+DATE INPUT: Falta agregar calendario en campos con fecha.
+
+
+
+
+******** DUDAS CLIENTE ********
+* Preguntar como se va a formar el identificador del Lote, si es campo abierto o autogenerado por el sistema, si fuera asi, definir en base a que.
+
+* Preguntar como se va a formar el Numero del contrato, si es campo abierto o autogenerado por el sistema, si fuera asi, definir en base a que.
+
+

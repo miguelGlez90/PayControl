@@ -79,16 +79,20 @@
             <a href="#" class="list-group-item active waves-effect">
                 <i class="fas fa-chart-pie mr-3"></i>Dashboard
             </a>
-            <a href="#" class="list-group-item list-group-item-action waves-effect">
-                <i class="fas fa-money-bill-alt mr-3"></i>Cobro</a>
-            <a href="#" class="list-group-item list-group-item-action waves-effect">
-                <i class="fas fa-user mr-3"></i>Comparador</a>
-            <a href="#" class="list-group-item list-group-item-action waves-effect">
-                <i class="fas fa-file mr-3"></i>Contrado</a>
-            <a href="#" class="list-group-item list-group-item-action waves-effect">
-                <i class="fas fa-map mr-3"></i>Lote</a>
-            <a href="#" class="list-group-item list-group-item-action waves-effect">
-                <i class="fas fa-money-bill-alt mr-3"></i>Vendedor</a>
+            <a href="${createLink(controller: 'empresa')}" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-building mr-3"></i>Empresa</a>
+            <a href="${createLink(controller: 'pagoRenta')}" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-dollar-sign mr-3"></i>Pagos Renta</a>
+            <a href="${createLink(controller: 'comprador')}" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-user-tie mr-3"></i>Compradores</a>
+            <a href="${createLink(controller: 'vendedor')}" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-user-tag mr-3"></i>Vendedores</a>
+            <a href="${createLink(controller: 'contrato')}" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-file-signature mr-3"></i>Contratos</a>
+            <a href="${createLink(controller: 'lote')}" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-map mr-3"></i>Lotes</a>
+            <a href="${createLink(controller: 'cobro')}" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-hand-holding-usd mr-3"></i>Cobros</a>
         </div>
     </div>
 </header>

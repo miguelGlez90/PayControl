@@ -17,4 +17,8 @@ class Vendedor {
         domicilioFiscal (nullable: true, blank: true)
         regimenFiscal (nullable: true, blank: true)
     }
+    
+    String toString(){
+        return nombre
+    }
 }
