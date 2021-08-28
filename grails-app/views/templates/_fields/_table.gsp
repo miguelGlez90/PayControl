@@ -34,7 +34,7 @@
         <td>
             <g:form resource="${bean}" method="DELETE">
                 <button type="submit" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" class="btn btn-outline-danger btn-rounded ripple-surface ripple-surface-dark btn-sm">
-                    QUITAR
+                    BORRAR
                 </button>
             </g:form>
         </td>
@@ -42,7 +42,7 @@
         <td>
             <g:form resource="${bean}" action="show" method="POST">
                 <button type="submit" class="btn btn-outline-info btn-rounded ripple-surface ripple-surface-dark btn-sm">
-                    DETALLE
+                    VER DETALLE
                 </button>
             </g:form>
         </td>

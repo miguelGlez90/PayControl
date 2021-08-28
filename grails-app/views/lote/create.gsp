@@ -40,7 +40,7 @@
 
                 <g:form resource="${this.lote}" method="POST">
                     <fieldset class="form">
-                        <f:all bean="lote"/>
+                        <f:all bean="lote" order="['identificador', 'costo', 'medidas', 'ubicacion']"/>
                     </fieldset>
                     <br/>
                     <fieldset class="buttons">
