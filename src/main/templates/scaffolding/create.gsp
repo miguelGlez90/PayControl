@@ -42,6 +42,7 @@
                     <fieldset class="form">
                         <f:all bean="${propertyName}"/>
                     </fieldset>
+                    <br/>
                     <fieldset class="buttons">
                         <button type="submit"  class="btn btn-outline-secondary btn-rounded ripple-surface ripple-surface-dark">
                             <g:message code="default.button.create.label" args="[entityName]"/>
