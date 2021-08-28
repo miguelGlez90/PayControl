@@ -41,8 +41,9 @@
                     <fieldset class="form">
                         <f:all bean="comprador"/>
                     </fieldset>
+                    <br/>
                     <fieldset class="buttons">
-                        <button type="submit"  class="btn btn-outline-secondary btn-rounded ripple-surface ripple-surface-dark">
+                        <button type="submit"  class="btn btn-outline-secondary btn-rounded ripple-surface ripple-surface-dark" onclick="return confirm('${message(code: 'default.button.update.confirm.message', default: 'Are you sure?')}');">
                             <g:message code="default.button.update.label" args="[entityName]"/>
                         </button>
                     </fieldset>
