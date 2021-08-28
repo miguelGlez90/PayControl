@@ -8,6 +8,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title> <g:layoutTitle default="Grails"/> </title>
+    <!-- INIT-Calendar-->
+    <asset:stylesheet src="jquery-ui 1.12.1.2/jquery-ui.css"></asset:stylesheet>
+    <asset:stylesheet src="jquery-ui 1.12.1.2/jquery-ui.structure.css"></asset:stylesheet>
+    <!-- FIN-Calendar-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <asset:stylesheet src="/css/bootstrap.min.css" ></asset:stylesheet>
     <asset:stylesheet src="/css/mdb.min.css" ></asset:stylesheet>
@@ -136,6 +140,9 @@
 <asset:javascript src="/js/popper.min.js"></asset:javascript>
 <asset:javascript src="/js/bootstrap.min.js"></asset:javascript>
 <asset:javascript src="/js/mdb.min.js"></asset:javascript>
+<!-- INIT-Calendar-->
+<asset:javascript src="/jquery-ui 1.12.1.2/jquery-ui.js"></asset:javascript>
+<!-- FIN-Calendar-->
 <!-- Initializations -->
 
 <script type="text/javascript"> new WOW().init(); </script>
