@@ -1,7 +1,7 @@
 
 
 ****LOTE**** MIGUEL
-NUEVO: Ocultar Vendido, y por default es false.
+NUEVO: Ocultar Vendido, y por default es false.		OK
 
 
 

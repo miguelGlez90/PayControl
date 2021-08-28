@@ -13,7 +13,7 @@ class Vendedor {
 
     static constraints = {
         nombre (nullable: false, blank: false)
-        rfc (nullable: false, blank: false)
+        rfc (nullable: true, blank: true)
         domicilioFiscal (nullable: true, blank: true)
         regimenFiscal (nullable: true, blank: true)
     }

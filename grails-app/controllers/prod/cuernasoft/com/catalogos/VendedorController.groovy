@@ -4,6 +4,7 @@ import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
 class VendedorController {
+    def IEmpresaService
 
     VendedorService vendedorService
 
@@ -18,7 +19,7 @@ class VendedorController {
         respond vendedorService.get(id)
     }
 
-    def create() {
+    def create() {        
         respond new Vendedor(params)
     }
 
@@ -26,6 +27,14 @@ class VendedorController {
         if (vendedor == null) {
             notFound()
             return
+        }
+        
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ }
+        if(!empresaInstance){ 
+            response.status = 404; return 
+        }else {
+            vendedor.empresa = empresaInstance
         }
 
         try {

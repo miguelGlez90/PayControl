@@ -16,7 +16,7 @@
     <asset:stylesheet src="/css/bootstrap.min.css" ></asset:stylesheet>
     <asset:stylesheet src="/css/mdb.min.css" ></asset:stylesheet>
     <asset:stylesheet src="/css/style.min.css" ></asset:stylesheet>
-    <asset:link rel="icon" href="homeIcon.ico.ico" type="image/x-ico"/>
+    <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
     <style type="text/css">
     .map-container{
         overflow:hidden;
@@ -76,7 +76,7 @@
 
     <div class="sidebar-fixed position-fixed" style="background-image: linear-gradient(to right, #141e30, #243b55) !important; ">
         <a class="logo-wrapper waves-effect">
-            <asset:image src="home4.png" alt="AdminLTE Logo" class="img-fluid"/>
+            <asset:image src="iconVentaLotes.ico" alt="Inicio" class="img-fluid"/>
         </a>
 
         <div class="list-group list-group-flush">
