@@ -24,7 +24,11 @@
         </g:each>
 
         <td>
-            <a title="Editar" class="btn btn-outline-secondary btn-rounded ripple-surface ripple-surface-dark btn-sm" href="${createLink(action: 'edit', params: [id: bean?.id])}" role="button">EDITAR</a>
+        <g:form resource="${bean}" action="edit" method="POST">
+            <button type="submit" class="btn btn-outline-secondary btn-rounded ripple-surface ripple-surface-dark btn-sm">
+                EDITAR
+            </button>
+        </g:form>
         </td>
 
         <td>
@@ -36,7 +40,11 @@
         </td>
 
         <td>
-            <a title="Ver Detalle" class="btn btn-outline-info btn-rounded ripple-surface ripple-surface-dark btn-sm" href="${createLink(action: 'show', params: [id: bean?.id])}" role="button">DETALLE</a>
+            <g:form resource="${bean}" action="show" method="POST">
+                <button type="submit" class="btn btn-outline-info btn-rounded ripple-surface ripple-surface-dark btn-sm">
+                    DETALLE
+                </button>
+            </g:form>
         </td>
         </tr>
     </g:each>
