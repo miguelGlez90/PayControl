@@ -13,7 +13,7 @@ class Comprador {
     static constraints = {
         nombre (nullable: false, blank: false)
         domicilio (nullable: true, blank: true)
-        telefono (nullable: true, blank: true)
+        telefono (nullable: true, blank: true, maxSize: 10, matches: '\\d{10}')
     }
     
     String toString(){
