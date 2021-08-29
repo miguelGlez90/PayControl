@@ -14,14 +14,14 @@ class IEmpresaService {
 
         def url = request.getServerName()
         def empresa = null
-        println 'url: '+url
+        //println 'url: '+url
 
         def empresaList = Empresa.findAll().each{
             def marcas = it.marca.split(",")
             def marcaid = it.id
             marcas.each{
                 def marcaFound = (url).find(it)
-                println "|it: ${it}| marcaFound: ${marcaFound}| url: ${url}| it: ${it}"
+                //println "|it: ${it}| marcaFound: ${marcaFound}| url: ${url}| it: ${it}"
                 if(marcaFound){
                     empresa = Empresa.findByMarcaAndActivo(marcaFound?.toString(), true)
                     return empresa

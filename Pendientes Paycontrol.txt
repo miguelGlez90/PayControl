@@ -24,7 +24,7 @@ SHOW:
 
 
 
-****VENDEDOR****MIGUEL
+****VENDEDOR****MIGUEL		OK
 NUEVO: 
 * Limitar a 13 caracteres el campo RFC 
 * Ocultar Empresa,  Fecha Alta y Activo.
@@ -71,7 +71,7 @@ NUEVO:
 
 
 
-****PLANTILLA****VALENTE
+****PLANTILLA****VALENTE		OK
 NUEVO: Agregar BR antes de boton CREAR.
 
 EDITAR: Agregar Confirmacion para modificar el registro.
