@@ -29,4 +29,9 @@ class Contrato {
         costo (nullable: false, blank: false)
         enganche (nullable: true, blank: true)
     }
+    
+    
+    String toString(){
+        return numero + "-" + comprador;
+    }
 }
