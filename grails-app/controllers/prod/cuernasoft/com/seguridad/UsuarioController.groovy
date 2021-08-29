@@ -51,34 +51,31 @@ class UsuarioController {
             return
         }
 
+        def usuarioInstance = null
+        try { usuarioInstance = Usuario.get(springSecurityService.principal.id) } catch (e) { }
+
         if(params?.password?.toString() == 'null'){
             flash.message = "Favor de seleccionar ingresar el passoword del usuario"
-            respond usuario.errors, view:'create', params: params
+            respond usuario.errors, view:'create', params: params, model:  [empresa: usuarioInstance?.empresa]
             return
         }
 
         if(params?.password != params?.passwordR){
             flash.message = "El password y repite password deben ser iguales"
-            respond usuario.errors, view:'create', params: params
+            respond usuario.errors, view:'create', params: params, model:  [empresa: usuarioInstance?.empresa]
             return
         }
-        println params
+
         def rolesList = params.list('iRoles')
         if(!rolesList || rolesList.size() <= 0){
             flash.message = "Favor de seleccionar un Rol por lo menos"
-            respond usuario.errors, view:'create', params: params
-            return
-        }
-
-
-        if(!params?.password){
-            flash.message = "El password y repite password deben ser iguales! LUL"
-            respond usuario.errors, view:'create', params: params
+            respond usuario.errors, view:'create', params: params, model:  [empresa: usuarioInstance?.empresa]
             return
         }
 
         try {
             usuarioService.save(usuario)
+            updateRoles(rolesList, usuario)
         } catch (ValidationException e) {
             respond usuario.errors, view:'create'
             return
@@ -107,8 +104,33 @@ class UsuarioController {
             return
         }
 
+        def usuarioInstance = null
+        try { usuarioInstance = Usuario.get(springSecurityService.principal.id) } catch (e) { }
+
+
+        if(params?.password?.toString() == 'null'){
+            flash.message = "Favor de seleccionar ingresar el passoword del usuario"
+            respond usuario.errors, view:'create', params: params, model: [empresa: usuarioInstance?.empresa]
+            return
+        }
+
+        if(params?.password != params?.passwordR){
+            flash.message = "El password y repite password deben ser iguales"
+            respond usuario.errors, view:'create', params: params, model: [empresa: usuarioInstance?.empresa]
+            return
+        }
+
+        def rolesList = params.list('iRoles')
+        if(!rolesList || rolesList.size() <= 0){
+            flash.message = "Favor de seleccionar un Rol por lo menos"
+            respond usuario.errors, view:'create', params: params, model: [empresa: usuarioInstance?.empresa]
+            return
+        }
+
+
         try {
             usuarioService.save(usuario)
+            updateRoles(rolesList, usuario)
         } catch (ValidationException e) {
             respond usuario.errors, view:'edit'
             return
