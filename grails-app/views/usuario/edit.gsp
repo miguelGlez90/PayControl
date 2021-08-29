@@ -9,11 +9,11 @@
     <div class="card mb-4 wow fadeIn animated" style="visibility: visible; animation-name: fadeIn;">
         <div class="card-body d-sm-flex justify-content-between">
             <h4 class="mb-2 mb-sm-0 pt-1">
-                Editar
+                <g:link class="list" action="index"><i class="fas fa-th-large"></i> <g:message code="default.list.label" args="[entityName]" /></g:link>
                 <span>/</span>
-                <g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link>
+                <g:link class="create" action="create"><i class="fas fa-plus"></i> <g:message code="default.new.label" args="[entityName]" /></g:link>
                 <span>/</span>
-                <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+                <i class="fas fa-pen"></i> Editar
             </h4>
         </div>
     </div>
@@ -79,8 +79,12 @@
                         </g:each>
                     </div>
                     <br/><br/>
-                    <input class="btn btn-outline-primary" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
-                    <g:link class="btn btn-outline-primary" action="editPassword" resource="${this.usuario}">Cambiar Constraseña</g:link>
+                    <fieldset class="buttons">
+                        <button type="submit"  class="btn btn-outline-secondary btn-rounded ripple-surface ripple-surface-dark" onclick="return confirm('${message(code: 'default.button.update.confirm.message', default: 'Are you sure?')}');">
+                            <g:message code="default.button.update.label" args="[entityName]"/>
+                        </button>
+                        <g:link class="btn btn-outline-primary" action="editPassword" resource="${this.usuario}">Cambiar Constraseña</g:link>
+                    </fieldset>
                 </g:form>
             </div>
         </div>
