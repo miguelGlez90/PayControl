@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'contrato.label', default: 'Contrato')}" />
+        <g:set var="entityName" value="${message(code: 'cobro.label', default: 'Cobro')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -11,9 +11,9 @@
     <div class="card mb-4 wow fadeIn animated" style="visibility: visible; animation-name: fadeIn;">
         <div class="card-body d-sm-flex justify-content-between">
             <h4 class="mb-2 mb-sm-0 pt-1">
-                <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+                <g:link class="create" action="create"><i class="fas fa-plus"></i> <g:message code="default.new.label" args="[entityName]" /></g:link>
                 <span>/</span>
-                <span><g:message code="default.list.label" args="[entityName]" /></span>
+                <span><i class="fas fa-th-large"></i> <g:message code="default.list.label" args="[entityName]" /></span>
             </h4>
         </div>
     </div>
@@ -29,14 +29,14 @@
                 </g:if>
 
                 <div class="alert alert-dark" role="alert">
-                    Registros encontrados: <b>${contratoCount ?: 0}</b>
+                    Registros encontrados: <b>${cobroCount ?: 0}</b>
                 </div>
                 
                 <div class="table-responsive">
-                    <f:table collection="${contratoList}" />
+                    <f:table collection="${cobroList}" />
 
                     <div class="pagination">
-                        <g:paginate total="${contratoCount ?: 0}" />
+                        <g:paginate total="${cobroCount ?: 0}" />
                     </div>
                 </div>
             </div>
