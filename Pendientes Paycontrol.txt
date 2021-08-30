@@ -72,16 +72,12 @@ NUEVO:
 
 
 ****PLANTILLA****VALENTE		OK
-NUEVO: Agregar BR antes de boton CREAR.
-
-EDITAR: Agregar Confirmacion para modificar el registro.
-
-LIST: Alineación de botón QUITAR.
-
-SUBMENU:
-Revisar agregar iconos en las opciones (Nuevo, Listado.. etc)
-
-DATE INPUT: Falta agregar calendario en campos con fecha.
+NUEVO: Agregar BR antes de boton CREAR..... OK
+EDITAR: Agregar Confirmacion para modificar el registro...... OK
+LIST: Alineación de botón QUITAR...... OK
+PLANTILLA > SUBMENU
+Revisar agregar iconos en las opciones (Nuevo, Listado.. etc)..... OK
+DATE INPUT: Falta agregar calendario en campos con fecha...... OK
 
 
 
