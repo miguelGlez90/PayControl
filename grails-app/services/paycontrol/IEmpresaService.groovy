@@ -14,9 +14,9 @@ class IEmpresaService {
         if(!request) return null
         def url = request.getServerName()
         def empresa = null
-        //println "OK--1"
+        println "OK--1"
         def empresaList = Empresa.findAllByActivo(true)
-        //println "OK--2"
+        println "OK--2"
         empresaList.each{
             def marcas = it.marca.split(",")
             //println "|IEmpresaService| marcas: ${marcas}"
