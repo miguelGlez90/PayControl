@@ -39,7 +39,7 @@
                 <g:form resource="${this.comprador}" method="PUT">
                     <g:hiddenField name="version" value="${this.comprador?.version}" />
                     <fieldset class="form">
-                        <f:all bean="comprador"/>
+                        <f:all bean="comprador" except="['empresa']" />
                     </fieldset>
                     <br/>
                     <fieldset class="buttons">
