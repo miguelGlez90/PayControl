@@ -4,13 +4,33 @@ import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
 class CompradorController {
-
+    def IEmpresaService
     CompradorService compradorService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+        //Empresa
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.getEmpresa(request) }catch(e){ }
+        if(!empresaInstance){
+            response.status = 404; return
+        }
+
         params.max = Math.min(max ?: 10, 100)
+        params?.offset = params?.offset ? params?.int('offset') : 0
+        params?.order = params?.order ? params?.order?.toString() : 'desc'
+        params?.sort = params?.sort ? params?.sort?.toString() : 'id'
+
+        def c = Comprador.createCriteria()
+        def results = c.list (max: params.max, offset: params?.offset){
+            and{
+                eq("empresa", empresaInstance)
+            }
+            order(params?.sort, params?.order)
+        }
+
+
         respond compradorService.list(params), model:[compradorCount: compradorService.count()]
     }
 
@@ -23,6 +43,15 @@ class CompradorController {
     }
 
     def save(Comprador comprador) {
+        //Empresa
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.getEmpresa(request) }catch(e){ }
+        println "|save| empresaInstance: ${empresaInstance}"
+        if(!empresaInstance){
+            response.status = 404; return
+        }
+        comprador.empresa = empresaInstance
+
         if (comprador == null) {
             notFound()
             return
@@ -49,6 +78,15 @@ class CompradorController {
     }
 
     def update(Comprador comprador) {
+        //Empresa
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.getEmpresa(request) }catch(e){ }
+        println "|update| empresaInstance: ${empresaInstance}"
+        if(!empresaInstance){
+            response.status = 404; return
+        }
+        comprador.empresa = empresaInstance
+
         if (comprador == null) {
             notFound()
             return
