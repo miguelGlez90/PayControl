@@ -16,10 +16,11 @@ class IEmpresaService {
 
         def empresaList = Empresa.findAll().each{
             def marcas = it.marca.split(",")
+            println "|IEmpresaService| marcas: ${marcas}"
             def marcaid = it.id
             marcas.each{
                 def marcaFound = (url).find(it)
-                //println "|it: ${it}| marcaFound: ${marcaFound}| url: ${url}| it: ${it}"
+                println "|IEmpresaService| it: ${it}| marcaFound: ${marcaFound}| url: ${url}| it: ${it}"
                 if(marcaFound){
                     empresa = Empresa.findByMarcaAndActivo(marcaFound?.toString(), true)
                     return empresa
