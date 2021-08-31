@@ -61,7 +61,7 @@
                     <f:table collection="${usuarioList}" except="['password', 'accountExpired','accountLocked','passwordExpired','empresa']"/>
 
                     <div class="pagination">
-                        <g:paginate total="${usuarioCount ?: 0}" />
+                        <g:paginate total="${usuarioCount ?: 0}" params="[nombreCompleto: params?.nombreCompleto, enabled: params?.enabled]"/>
                     </div>
                 </div>
             </div>
