@@ -12,7 +12,7 @@ class CompradorController {
     def index(Integer max) {
         //Empresa
         def empresaInstance = null
-        try{ empresaInstance = IEmpresaService.getEmpresa(request) }catch(e){ }
+        try{ empresaInstance = IEmpresaService.getEmpresa(request) }catch(e){ println "ERROR: ${e}"}
         if(!empresaInstance){
             response.status = 404; return
         }
@@ -26,12 +26,24 @@ class CompradorController {
         def results = c.list (max: params.max, offset: params?.offset){
             and{
                 eq("empresa", empresaInstance)
+                if(params?.activo?.toString() == 'true'){
+                    eq('activo', true)
+                }
+                if(params?.nombre && params?.nombre?.toString() != 'null'){
+                    like("nombre", "%${params?.nombre}%")
+                }
+                if(params?.telefono && params?.telefono?.toString() != 'null'){
+                    like("telefono", "%${params?.telefono}%")
+                }
+                if(params?.activo?.toString() == 'false'){
+                    eq('activo', false)
+                }
             }
             order(params?.sort, params?.order)
         }
 
 
-        respond compradorService.list(params), model:[compradorCount: compradorService.count()]
+        respond results, model:[compradorCount: results.totalCount]
     }
 
     def show(Long id) {

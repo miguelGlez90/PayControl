@@ -18,6 +18,36 @@
         </div>
     </div>
 
+    <div class="col-lg-12 col-md-12 mb-12">
+        <div class="card">
+            <div class="card-header"># Buscador</div>
+            <div class="card-body">
+                <g:form action="index" method="post">
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control" value="${params?.nombre ? params?.nombre : ''}" placeholder="Nombre">
+                        </div>
+
+                        <div class="col">
+                            <label for="telefono">Teléfono</label>
+                            <input type="text" maxlength="10" name="telefono" id="telefono" class="form-control" value="${params?.telefono ? params?.telefono : ''}" placeholder="Teléfono">
+                        </div>
+
+                        <div class="col">
+                            <label for="activo">Estatus</label>
+                            <g:select name="activo" id="activo" from="${[[id: true, value: "Activo"],[id: false, value: "Inactivo"]]}" value="${params?.activo}" class="form-control" optionKey="id" optionValue="value" noSelection="[null: '-Todos-']"></g:select>
+                        </div>
+
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </g:form>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+
 
     <div class="col-lg-12 col-md-12 mb-12">
         <div class="card">
@@ -36,7 +66,7 @@
                     <f:table collection="${compradorList}" except="['empresa']" />
 
                     <div class="pagination">
-                        <g:paginate total="${compradorCount ?: 0}" />
+                        <g:paginate total="${compradorCount ?: 0}" params="[nombre: params?.nombre, telefono: params?.telefono, activo: params?.activo]"/>
                     </div>
                 </div>
             </div>
