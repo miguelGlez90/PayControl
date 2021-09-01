@@ -8,10 +8,10 @@ NUEVO: Ocultar Vendido, y por default es false.		OK
 
 ****COMPRADOR****VALENTE
 NUEVO: 
-* Limitar a 10 caracteres el campo teléfono y solo aceptar Numeros.
-* Ocultar el campo Activo.
-* Ocultar el campo Empresa.
-* Ocultar el campo Fecha Alta.
+* Limitar a 10 caracteres el campo teléfono y solo aceptar Numeros.......  OK
+* Ocultar el campo Activo........  OK
+* Ocultar el campo Empresa........  OK
+* Ocultar el campo Fecha Alta........  OK
 
 EDITAR: 
 * Limitar a 10 caracteres el campo teléfono y solo aceptar Numeros.
