@@ -12,7 +12,7 @@ class CompradorController {
     def index(Integer max) {
         //Empresa
         def empresaInstance = null
-        try{ empresaInstance = IEmpresaService.getEmpresa(request) }catch(e){ println "ERROR: ${e}"}
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}"}
         if(!empresaInstance){
             response.status = 404; return
         }
@@ -57,7 +57,7 @@ class CompradorController {
     def save(Comprador comprador) {
         //Empresa
         def empresaInstance = null
-        try{ empresaInstance = IEmpresaService.getEmpresa(request) }catch(e){ }
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ }
         println "|save| empresaInstance: ${empresaInstance}"
         if(!empresaInstance){
             response.status = 404; return
@@ -92,7 +92,7 @@ class CompradorController {
     def update(Comprador comprador) {
         //Empresa
         def empresaInstance = null
-        try{ empresaInstance = IEmpresaService.getEmpresa(request) }catch(e){ }
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ }
         println "|update| empresaInstance: ${empresaInstance}"
         if(!empresaInstance){
             response.status = 404; return
