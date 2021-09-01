@@ -8,10 +8,16 @@ class UsuarioController {
     UsuarioService usuarioService
     UsuarioRoleService usuarioRoleService
     def springSecurityService
+    def IEmpresaService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+        //Empresa
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}"}
+        if(!empresaInstance){ response.status = 404; return; }
+
         params.max = Math.min(max ?: 10, 100)
         params?.offset = params?.offset ? params?.int('offset') : 0
         params?.order = params?.order ? params?.order?.toString() : 'asc'
@@ -22,6 +28,7 @@ class UsuarioController {
         def c = Usuario.createCriteria()
         def results = c.list (max: params.max, offset: params?.offset){
             and{
+                eq("empresa", empresaInstance)
                 if(params?.nombreCompleto && params?.nombreCompleto?.toString() != 'null')
                     like("nombreCompleto", "%${params?.nombreCompleto}%")
                 if(params?.enabled?.toString() == 'true') eq('enabled', true)
