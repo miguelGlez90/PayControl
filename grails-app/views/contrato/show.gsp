@@ -28,7 +28,7 @@
                     <div class="alert alert-info" role="alert">${flash.message}</div>
                 </g:if>
 
-                <f:display bean="contrato" />
+                <f:display bean="contrato" except="['empresa']"/>
                 <g:form resource="${this.contrato}" method="DELETE">
                     <fieldset class="buttons">
                         <g:link class="btn btn-outline-primary ripple-surface ripple-surface-dark" action="edit" resource="${this.contrato}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
