@@ -11,9 +11,9 @@
     <div class="card mb-4 wow fadeIn animated" style="visibility: visible; animation-name: fadeIn;">
         <div class="card-body d-sm-flex justify-content-between">
             <h4 class="mb-2 mb-sm-0 pt-1">
-                <g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link>
+                <g:link class="list" action="index"><i class="fas fa-th-large"></i> <g:message code="default.list.label" args="[entityName]" /></g:link>
                 <span>/</span>
-                <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+                <g:link class="create" action="create"><i class="fas fa-plus"></i> <g:message code="default.new.label" args="[entityName]" /></g:link>
             </h4>
         </div>
     </div>

@@ -1,28 +1,59 @@
 package prod.cuernasoft.com.procesos
 
 import grails.validation.ValidationException
+import prod.cuernasoft.com.catalogos.Comprador
+
 import static org.springframework.http.HttpStatus.*
 
 class ContratoController {
-
+    def IEmpresaService
     ContratoService contratoService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+        //Empresa
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}" }
+        if(!empresaInstance){ response.status = 404; return true }
+
         params.max = Math.min(max ?: 10, 100)
-        respond contratoService.list(params), model:[contratoCount: contratoService.count()]
+        params?.offset = params?.offset ? params?.int('offset') : 0
+        params?.order = params?.order ? params?.order?.toString() : 'desc'
+        params?.sort = params?.sort ? params?.sort?.toString() : 'id'
+
+        def c = Contrato.createCriteria()
+        def results = c.list (max: params.max, offset: params?.offset){
+            eq('empresa', empresaInstance)
+            and{
+
+            }
+        }
+
+        respond results, model:[contratoCount: results.totalCount]
     }
 
     def show(Long id) {
-        respond contratoService.get(id)
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}"}
+        if(!empresaInstance){ response.status = 404; return }
+
+        respond contratoService.get(id), model: [empresaInstance: empresaInstance]
     }
 
     def create() {
-        respond new Contrato(params)
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}"}
+        if(!empresaInstance){ response.status = 404; return }
+
+        respond new Contrato(params), model: [empresaInstance: empresaInstance]
     }
 
     def save(Contrato contrato) {
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}" }
+        if(!empresaInstance){ response.status = 404; return true }
+
         if (contrato == null) {
             notFound()
             return
@@ -31,7 +62,7 @@ class ContratoController {
         try {
             contratoService.save(contrato)
         } catch (ValidationException e) {
-            respond contrato.errors, view:'create'
+            respond contrato.errors, view:'create', model: [empresaInstance: empresaInstance]
             return
         }
 
@@ -45,10 +76,18 @@ class ContratoController {
     }
 
     def edit(Long id) {
-        respond contratoService.get(id)
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}" }
+        if(!empresaInstance){ response.status = 404; return true }
+
+        respond contratoService.get(id), model: [empresaInstance: empresaInstance]
     }
 
     def update(Contrato contrato) {
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}" }
+        if(!empresaInstance){ response.status = 404; return true }
+
         if (contrato == null) {
             notFound()
             return
@@ -57,7 +96,7 @@ class ContratoController {
         try {
             contratoService.save(contrato)
         } catch (ValidationException e) {
-            respond contrato.errors, view:'edit'
+            respond contrato.errors, view:'edit', model: [empresaInstance: empresaInstance]
             return
         }
 

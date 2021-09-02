@@ -42,7 +42,72 @@
 
                 <g:form resource="${this.contrato}" method="POST">
                     <fieldset class="form">
-                        <f:all bean="contrato"/>
+                        <div class="form-row">
+                            <div class="col-6">
+                                <label for="fecha">Fecha *</label>
+                                <g:field type="text" id="fecha" autocomplete="off" name="fecha" class="form-control" value="${this.contrato?.fecha?.format('yyyy-MM-dd')}" placeholder="Fecha" required="true" />
+                            </div>
+
+                            <div class="col">
+                                <label for="numero">Número *</label>
+                                <g:field type="text" id="numero" autocomplete="off" name="numero" class="form-control" value="${this.contrato?.numero}" placeholder="Número" required="true" />
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="vendedor">Vendedor *</label>
+                                <g:select name="vendedor" class="form-control" from="${prod.cuernasoft.com.catalogos.Vendedor.findAllByActivoAndEmpresa(true, empresaInstance)}" value="${this.contrato?.vendedor}"/>
+                            </div>
+
+                            <div class="col">
+                                <label for="comprador">Comprador *</label>
+                                <g:select name="comprador" class="form-control" from="${prod.cuernasoft.com.catalogos.Comprador.findAllByActivoAndEmpresa(true, empresaInstance)}" value="${this.contrato?.comprador}"/>
+                            </div>
+                        </div>
+
+                        <br/><br/>
+
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="costo">Costo *</label>
+                                <g:field type="number" id="costo" autocomplete="off" name="costo" class="form-control" value="${this.contrato?.costo}" placeholder="Costo" required="true" />
+                            </div>
+                            <div class="col">
+                                <label for="enganche">Enganche *</label>
+                                <g:field type="number" id="enganche" autocomplete="off" name="enganche" class="form-control" value="${this.contrato?.enganche}" placeholder="Enganche" required="true" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="plazoCompra">Plazo de Compra *</label>
+                                <g:field type="number" id="plazoCompra" autocomplete="off" name="plazoCompra" class="form-control" value="${this.contrato?.plazoCompra}" placeholder="Plazo de Compra" required="true" />
+                            </div>
+                            <div class="col">
+                                <label for="mesualidad">Mesualidad *</label>
+                                <g:field type="number" id="mesualidad" autocomplete="off" name="mesualidad" class="form-control" value="${this.contrato?.mesualidad}" placeholder="Mesualidad" required="true" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-6">
+                                <label for="plazoCompra">Día de Pago *</label>
+                                <g:field type="number" id="diaPago" autocomplete="off" name="diaPago" class="form-control" value="${this.contrato?.diaPago}" placeholder="Día de Pago" required="true" />
+                            </div>
+                        </div>
+
+                        <br/><br/>
+
+                        <div class="form-row">
+                            <div class="col-6">
+                                <label for="vendedor">Seleccione los lotes *</label>
+                                <g:select name="lotes" multiple="true" class="form-control" from="${prod.cuernasoft.com.catalogos.Lote.findAllByVendido(false)}" value="${this.contrato?.lotes}"/>
+                            </div>
+                        </div>
+
                     </fieldset>
                     <br/>
                     <fieldset class="buttons">
@@ -54,5 +119,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        window.onload = function() { $( "#fecha" ).datepicker({ dateFormat:'yy-mm-dd' }); };
+    </script>
+
     </body>
 </html>
