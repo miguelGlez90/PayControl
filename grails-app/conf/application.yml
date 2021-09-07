@@ -143,8 +143,8 @@ environments:
             dir:
                 reports: 'assets'
         dataSource:
-            username: cuernaso_admin
-            password: 'P@ssAdmin147'
+            username: cuernaso_adminProd2O21
+            password: 'P@ssAdminPr0d_Cs'
             dbCreate: update
             url: jdbc:mysql://www.cuerna-soft.com:3306/cuernaso_paycontrol_prod?useSSL=false
             properties:
