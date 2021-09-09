@@ -45,6 +45,7 @@ NUEVO:
 * Ocultar Empresa
 * Ocultar Abierto, enviar default True
 * Lotes, agregar un select multiple para seleccionar uno o más lotes con estatus VENDIDO false.
+* Costo = sumatoria de Lotes Selecionados Sumar(lote.costo)
 * Mensualidad = (Costo - Enganche) / Plazo Compra
 
 
