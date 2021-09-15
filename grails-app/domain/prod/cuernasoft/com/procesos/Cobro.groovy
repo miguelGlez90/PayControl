@@ -23,7 +23,7 @@ class Cobro {
         referencia (nullable: true, blank: true)
     }
     
-    def getFormaDePagoVenta(){
+    def getFormaDePago(){
         if(this.formaPago == 0) return "Efectivo"
         if(this.formaPago == 1) return "Cheque"
         if(this.formaPago == 2) return "Transferencia Bancaria o Depósito Bancario"

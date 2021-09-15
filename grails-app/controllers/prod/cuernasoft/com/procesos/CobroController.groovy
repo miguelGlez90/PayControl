@@ -9,6 +9,7 @@ class CobroController {
     def IEmpresaService, springSecurityService
 
     CobroService cobroService
+    ContratoService contratoService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -26,7 +27,6 @@ class CobroController {
     }
 
     def save(Cobro cobro) {
-        println(params)
         if (cobro == null) {
             notFound()
             return
@@ -52,6 +52,9 @@ class CobroController {
             cobro.empresa = empresaInstance;
             cobro.creadoPor = usuarioInstance
             cobroService.save(cobro)
+            //Update saldo del contrato
+            contract.deudaActual = contract.deudaActual - cobro.monto;
+            contratoService.save(contract as Contrato)
         } catch (ValidationException e) {
             respond cobro.errors, view:'create'
             return

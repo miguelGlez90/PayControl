@@ -1,6 +1,7 @@
 package prod.cuernasoft.com.procesos
 
 import grails.validation.ValidationException
+import java.text.DecimalFormat
 import grails.converters.JSON
 import prod.cuernasoft.com.admin.Empresa
 import prod.cuernasoft.com.catalogos.Comprador
@@ -156,7 +157,7 @@ class ContratoController {
             [
                 id: it?.id,
                 numero: it?.numero,
-                costo: it?.deudaActual,
+                costo: stringToDecimal.call(it?.deudaActual),
                 comprador: it?.comprador,
                 mesualidad: it?.mesualidad
             ]
@@ -179,5 +180,11 @@ class ContratoController {
 
         def lista = Contrato.executeQuery(query, [max: 250, offset: 0])
         return lista
+    }
+    
+    def stringToDecimal = {monto->
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        String formatted = decimalFormat.format(monto);
+        return "\$" + formatted;
     }
 }

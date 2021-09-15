@@ -39,7 +39,19 @@
                 <g:form resource="${this.cobro}" method="PUT">
                     <g:hiddenField name="version" value="${this.cobro?.version}" />
                     <fieldset class="form">
-                        <f:all bean="cobro"/>
+                        <div class="form-group col-md-6">
+                            <label for="folio">Folio</label>
+                            <g:field type="text" id="folio" name="folio" readonly="true" class="form-control" value="${this.cobro?.folio}"/>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="contrato">Contrato</label>
+                            <g:field type="text" id="contrato" name="contrato" readonly="true" class="form-control" value="${this.cobro?.contrato}"/>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="fecha">Fecha</label>
+                            <g:field type="text" id="fecha" name="fecha" readonly="true" class="form-control" value="${this.cobro?.fecha}"/>
+                        </div>
+                        <f:all bean="cobro" order="['monto', 'formaPago', 'cancelado']"/>
                     </fieldset>
                     <br/>
                     <fieldset class="buttons">

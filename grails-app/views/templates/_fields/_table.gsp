@@ -20,7 +20,6 @@
                            property="${p.name}"
                            displayStyle="${displayStyle?:'table'}"/>
             </td>
-            </td>
         </g:each>
 
         <td>

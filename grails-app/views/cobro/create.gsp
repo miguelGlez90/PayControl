@@ -115,19 +115,17 @@
                     minLength: 1,
                     select: function( event, ui ) {
                         if(ui.item.id > 0){
-                        console.log('if')
                             setTimeout(function(){
                                 document.getElementById('contratoNumber').value = ui.item.numero;
                                 document.getElementById('monto').value = ui.item.mesualidad;
                             }, 400);
                         }else{
-                        console.log('error')
                             document.getElementById('contratoNumber').value = '';
                         }
                     }
                 } ).autocomplete("instance")._renderItem = function (ul, item) {
                     if(item.id <= 0) return $("<li>").append("<dl><dt>" + item.nombre + "</dt></dl>").appendTo(ul);
-                    if(item.id > 0) return $("<li>").append("<dl><dt>" + item.numero + ": " + item.comprador.nombre + " -- " + item.costo + "</dt></dl>").appendTo(ul);
+                    if(item.id > 0) return $("<li>").append("<dl><dt>" + item.numero + ": " + item.comprador.nombre + " (" + item.costo + ")</dt></dl>").appendTo(ul);
                 };
             };
         };

@@ -33,7 +33,61 @@
                 </div>
                 
                 <div class="table-responsive">
-                    <f:table collection="${cobroList}" order="['folio', 'contrato', 'monto', 'fecha', 'creadoPor']"/>
+                    <!-- f:table collection="${cobroList}" order="['folio', 'contrato', 'monto', 'fecha', 'cancelado', 'creadoPor']"/ -->
+                    
+                    <table class="table table-hover table-sm table-striped">
+                        <thead>
+                        <tr>
+                            <g:sortableColumn property="folio" title="Folio" />
+                            <g:sortableColumn property="contrato" title="Contrato" />
+                            <g:sortableColumn property="monto" title="Monto" />
+                            <g:sortableColumn property="fecha" title="Fecha" />
+                            <g:sortableColumn property="cancelado" title="Cancelado" />
+                            <g:sortableColumn property="creadoPor" title="Creado Por" />
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <g:each in="${cobroList}" var="cobro" status="i">
+                            <tr>
+                            <td>${cobro?.folio}</td>
+                            <td>${cobro?.contrato}</td>
+                            <td>${cobro?.monto}</td>
+                            <td><g:formatDate format="dd/MM/yyyy" date="${cobro?.fecha}"/></td>
+                            <td><g:if test="${cobro?.cancelado}">Si</g:if><g:if test="${!cobro?.cancelado}">No</g:if></td>
+                            <td>${cobro?.creadoPor}</td>
+
+                            <td>
+                            <g:form resource="${cobro}" action="edit" method="POST">
+                                <button type="submit" class="btn btn-outline-secondary btn-rounded ripple-surface ripple-surface-dark btn-sm">
+                                    EDITAR
+                                </button>
+                            </g:form>
+                            </td>
+
+                            <td>
+                                <g:form resource="${cobro}" method="DELETE">
+                                    <button type="submit" onclick="return confirm('¿Desea cancelar el cobro seleccionado?');" class="btn btn-outline-danger btn-rounded ripple-surface ripple-surface-dark btn-sm">
+                                        CANCELAR
+                                    </button>
+                                </g:form>
+                            </td>
+
+                            <td>
+                                <g:form resource="${cobro}" action="show" method="POST">
+                                    <button type="submit" class="btn btn-outline-info btn-rounded ripple-surface ripple-surface-dark btn-sm">
+                                        VER DETALLE
+                                    </button>
+                                </g:form>
+                            </td>
+                            </tr>
+                        </g:each>
+                        </tr>
+                        </tbody>
+                    </table>
 
                     <div class="pagination">
                         <g:paginate total="${cobroCount ?: 0}" />
