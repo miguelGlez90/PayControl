@@ -32,6 +32,10 @@ class Usuario implements Serializable {
         username nullable: false, blank: false, unique: true
         nombreCompleto nullable: true, blank: true
     }
+    
+    String toString(){
+        return nombreCompleto;
+    }
 
     static mapping = {
 	    password column: '`password`'

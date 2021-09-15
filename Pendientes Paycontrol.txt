@@ -37,10 +37,10 @@ SHOW:
 
 
 ****CONTRATO****VALENTE
-Dividir Formulario en 2 columnas.
+Dividir Formulario en 2 columnas. OK
 
 NUEVO:
-* Autogenerar Numero (contrato)
+* Autogenerar Numero (contrato) PENDIENTE MIGUEL
 * Ocultar Deuda Actual, y enviar valor en 0.
 * Ocultar Empresa
 * Ocultar Abierto, enviar default True

@@ -40,7 +40,25 @@
 
                 <g:form resource="${this.cobro}" method="POST">
                     <fieldset class="form">
-                        <f:all bean="cobro"/>
+                        <div class="form-group col-md-6">
+                            <label for="rfc">Contrato</label>
+                            <g:field type="text" id="contratoNumber" name="contratoNumber" class="form-control" value="" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="monto">Monto</label>
+                            <g:field type="text" onkeypress="javascript:return toDecimal(event,this);" id="monto" name="monto" class="form-control" value="" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="formaDePago">Forma de pago</label>
+                            <label>Forma de pago</label>
+                            <select class="form-control" id="formaDePago" name="formaDePago">
+                                <option value="0">Efectivo</option>
+                                <option value="1">Cheque</option>
+                                <option value="2">Transferencia Bancaria o Dep&oacute;sito Bancario</option>
+                                <option value="3">Bienes/Servicios</option>
+                            </select>
+                        </div>
+                        <f:all bean="cobro" order="['referencia']"/>
                     </fieldset>
                     <br/>
                     <fieldset class="buttons">
@@ -52,5 +70,67 @@
             </div>
         </div>
     </div>
+    
+    <span id="linkSearchContract" style="display: none">${createLink(controller: 'contrato', action: 'searchContractAjax')}</span>
+    
+    <script type="application/javascript">
+        function toDecimal(evt, el) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            var number = el.value.split('.');
+            if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            //just one dot (thanks ddlab)
+            if (number.length > 1 && charCode === 46) {
+                return false;
+            }
+            //get the carat position
+            var caratPos = getSelectionStart(el);
+            var dotPos = el.value.indexOf(".");
+            if (caratPos > dotPos && dotPos > -1 && (number[1].length > 1)) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script>        
+        window.onload = function() {
+            autoCompleteProducto('contratoNumber', $('#linkSearchContract').html());
+
+
+            function autoCompleteProducto(iElementId, url) {
+                if(!iElementId) return true;
+                if(!document.getElementById(iElementId)) return false;
+
+                $( "#"+ iElementId ).autocomplete({
+                    source: function( request, response ) {
+                        $.ajax( {
+                            url: url,
+                            data: { frase: request.term },
+                            success: function( data ) {
+                                response( data.list );
+                            }
+                        } );
+                    },
+                    minLength: 1,
+                    select: function( event, ui ) {
+                        if(ui.item.id > 0){
+                        console.log('if')
+                            setTimeout(function(){
+                                document.getElementById('contratoNumber').value = ui.item.numero;
+                                document.getElementById('monto').value = ui.item.mesualidad;
+                            }, 400);
+                        }else{
+                        console.log('error')
+                            document.getElementById('contratoNumber').value = '';
+                        }
+                    }
+                } ).autocomplete("instance")._renderItem = function (ul, item) {
+                    if(item.id <= 0) return $("<li>").append("<dl><dt>" + item.nombre + "</dt></dl>").appendTo(ul);
+                    if(item.id > 0) return $("<li>").append("<dl><dt>" + item.numero + ": " + item.comprador.nombre + " -- " + item.costo + "</dt></dl>").appendTo(ul);
+                };
+            };
+        };
+    </script>
     </body>
 </html>

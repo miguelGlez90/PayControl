@@ -32,6 +32,6 @@ class Contrato {
     
     
     String toString(){
-        return numero + "-" + comprador;
+        return numero + " - " + comprador;
     }
 }

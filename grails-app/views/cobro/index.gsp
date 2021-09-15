@@ -33,7 +33,7 @@
                 </div>
                 
                 <div class="table-responsive">
-                    <f:table collection="${cobroList}" />
+                    <f:table collection="${cobroList}" order="['folio', 'contrato', 'monto', 'fecha', 'creadoPor']"/>
 
                     <div class="pagination">
                         <g:paginate total="${cobroCount ?: 0}" />
