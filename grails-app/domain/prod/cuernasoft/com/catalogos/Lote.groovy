@@ -7,6 +7,10 @@ class Lote {
     String ubicacion
     boolean vendido = false // Bandera para identificar si el lote fue vendido
 
+    String toString(){
+        return "Ubicación: " + ubicacion + ", Medidas: " + medidas + ", Costo: " + costo?.toString()
+    }
+
     static constraints = {
         identificador (nullable: false, blank: false, unique: true) 
         costo (nullable: false, blank: false) 
