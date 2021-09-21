@@ -1,6 +1,9 @@
 package prod.cuernasoft.com.procesos
 
 import grails.validation.ValidationException
+import prod.cuernasoft.com.catalogos.Lote
+import prod.cuernasoft.com.catalogos.LoteService
+
 import java.text.DecimalFormat
 import grails.converters.JSON
 import prod.cuernasoft.com.admin.Empresa
@@ -11,6 +14,7 @@ import static org.springframework.http.HttpStatus.*
 class ContratoController {
     def IEmpresaService
     ContratoService contratoService
+    LoteService loteService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -24,13 +28,12 @@ class ContratoController {
         params?.offset = params?.offset ? params?.int('offset') : 0
         params?.order = params?.order ? params?.order?.toString() : 'desc'
         params?.sort = params?.sort ? params?.sort?.toString() : 'id'
+        println params
 
         def c = Contrato.createCriteria()
         def results = c.list (max: params.max, offset: params?.offset){
             eq('empresa', empresaInstance)
-            and{
-
-            }
+            order(params?.sort, params?.order)
         }
 
         respond results, model:[contratoCount: results.totalCount]
@@ -56,6 +59,26 @@ class ContratoController {
         def empresaInstance = null
         try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}" }
         if(!empresaInstance){ response.status = 404; return true }
+        println "params: ${params}"
+
+        def itemsLote = []
+        def result = params?.iLotes?.split(',').each{
+            try{ itemsLote.add(it as Integer) }catch(e){ }
+        }
+        println "result: ${result}"
+
+        def loteList = Lote.getAll(itemsLote)
+        println "loteList: ${loteList}"
+
+        if(loteList.size() <= 0){
+            flash.message= 'Favor de Seleccionar un Lote por lo menos'
+            respond contrato.errors, view:'create', model: [empresaInstance: empresaInstance]
+            return
+        }
+
+        loteList.each{ contrato.addToLotes(it) }
+
+
 
         if (contrato == null) {
             notFound()
@@ -68,6 +91,9 @@ class ContratoController {
             respond contrato.errors, view:'create', model: [empresaInstance: empresaInstance]
             return
         }
+
+        //Marca lotes como Vendido = true
+        updateLotes.call(loteList)
 
         request.withFormat {
             form multipartForm {
@@ -186,5 +212,35 @@ class ContratoController {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
         String formatted = decimalFormat.format(monto);
         return "\$" + formatted;
+    }
+
+    def updateLotes = { lotes->
+        println "UPDATELOTES: ${lotes}"
+        lotes.each{
+            it.vendido = true
+            try { loteService.save(it) } catch (ValidationException e) { println "ERROR|UPDATE-LOTE| ${e}"}
+        }
+    }
+
+    def findLote(){
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}" }
+        if(!empresaInstance){ response.status = 404; return true }
+
+        String query =  "from Lote as l where l.vendido = false AND concat_ws('', l.identificador, l.ubicacion) like '%${params?.nombre}%' order by l.identificador"
+        def results = Lote.executeQuery(query, [max: 15, offset: 0])
+
+        results = results.collect{
+            [
+                    id: it?.id,
+                    costo: it?.costo,
+                    medidas: it?.medidas,
+                    ubicacion: it?.ubicacion,
+                    identificador: it?.identificador
+            ]
+        }
+
+        def model = [count: results.size(), list: results] as JSON
+        render model
     }
 }

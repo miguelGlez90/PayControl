@@ -28,6 +28,7 @@ class Contrato {
         comprador (nullable: false, blank: false)
         costo (nullable: false, blank: false)
         enganche (nullable: true, blank: true)
+        lotes (nullable: true, blank: false)
     }
     
     
