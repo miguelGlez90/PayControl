@@ -45,7 +45,7 @@
                             <g:sortableColumn property="cancelado" title="Cancelado" />
                             <g:sortableColumn property="creadoPor" title="Creado Por" />
                             <th scope="col">&nbsp;</th>
-                            <th scope="col">&nbsp;</th>
+                            <!--th scope="col">&nbsp;</th-->
                             <th scope="col">&nbsp;</th>
                         </tr>
                         </thead>
@@ -68,13 +68,13 @@
                             </g:form>
                             </td>
 
-                            <td>
+                            <!--td>
                                 <g:form resource="${cobro}" method="DELETE">
                                     <button type="submit" onclick="return confirm('¿Desea cancelar el cobro seleccionado?');" class="btn btn-outline-danger btn-rounded ripple-surface ripple-surface-dark btn-sm">
                                         CANCELAR
                                     </button>
                                 </g:form>
-                            </td>
+                            </td-->
 
                             <td>
                                 <g:form resource="${cobro}" action="show" method="POST">

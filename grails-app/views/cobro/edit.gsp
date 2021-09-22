@@ -62,7 +62,7 @@
                                 <option value="3" <g:if test="${this.cobro?.formaPago == 3}">selected</g:if>>Bienes/Servicios</option>
                             </select>
                         </div>
-                        <f:all bean="cobro" order="['monto']"/>
+                        <f:all bean="cobro" order="['monto', 'referencia']"/>
                     </fieldset>
                     <br/>
                     <fieldset class="buttons">

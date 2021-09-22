@@ -52,16 +52,16 @@ NUEVO:
 
 ****COBROS****MIGUEL
 NUEVO:
-* Agregar un Buscador en el input Contrato, el cual busque de acuerdo al numero de contrato y comprador, Mostrar NumeroContrato - Comprador - DeudaActual
+* Agregar un Buscador en el input Contrato, el cual busque de acuerdo al numero de contrato y comprador, Mostrar NumeroContrato - Comprador - DeudaActual	OK
 
-* En el campo Monto, al seleccionar el contrato, deberá cargar en automático el monto de la mensualidad correspondiente.
+* En el campo Monto, al seleccionar el contrato, deberá cargar en automático el monto de la mensualidad correspondiente.	OK
 
-* Forma de pago: Agregar combo, con catálogo predefinido en cod. duro para las formas de pago.
+* Forma de pago: Agregar combo, con catálogo predefinido en cod. duro para las formas de pago.	OK
 
 
-* Ocultar Fecha y Empresa.
+* Ocultar Fecha y Empresa.	OK
 
-* Al registrar el cobro, se debe descontar el MONTO del cobro del DEUDA ACTUAL del Contrato.
+* Al registrar el cobro, se debe descontar el MONTO del cobro del DEUDA ACTUAL del Contrato.	OK
 
 
 
