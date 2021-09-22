@@ -80,7 +80,19 @@ class CobroController {
         }
 
         try {
+            //Actualización de saldo
+            def contrato = cobro?.contrato;
+            def deudaActualContrato = cobro?.contrato.deudaActual as double;
+            //Aumentamos el monto original a la deuda
+            deudaActualContrato = deudaActualContrato + (params?.montoOri as double);
+            //Ahora descontamos el monto del cobro modificado
+            deudaActualContrato = deudaActualContrato - cobro.monto;
+            //Seteamos nueva deuda
+            contrato.deudaActual = deudaActualContrato;
+            //Actualiza cobro
             cobroService.save(cobro)
+            //Actualiza contrato:
+            contratoService.save(contrato as Contrato)
         } catch (ValidationException e) {
             respond cobro.errors, view:'edit'
             return
