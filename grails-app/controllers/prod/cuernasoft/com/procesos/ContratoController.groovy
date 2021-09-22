@@ -65,14 +65,13 @@ class ContratoController {
         def result = params?.iLotes?.split(',').each{
             try{ itemsLote.add(it as Integer) }catch(e){ }
         }
-        println "result: ${result}"
 
         def loteList = Lote.getAll(itemsLote)
         println "loteList: ${loteList}"
 
         if(loteList.size() <= 0){
             flash.message= 'Favor de Seleccionar un Lote por lo menos'
-            respond contrato.errors, view:'create', model: [empresaInstance: empresaInstance]
+            respond contrato.errors, view:'create', model: [empresaInstance: empresaInstance, iLotes: params?.iLotes, lotesJSON: params?.lotesJSON]
             return
         }
 
@@ -88,7 +87,7 @@ class ContratoController {
         try {
             contratoService.save(contrato)
         } catch (ValidationException e) {
-            respond contrato.errors, view:'create', model: [empresaInstance: empresaInstance]
+            respond contrato.errors, view:'create', model: [empresaInstance: empresaInstance, iLotes: params?.iLotes, lotesJSON: params?.lotesJSON]
             return
         }
 
@@ -239,6 +238,9 @@ class ContratoController {
                     identificador: it?.identificador
             ]
         }
+
+        if(results.size() <= 0)
+            results = [[id:0, identificador: "No hay registros que mostrar"]]
 
         def model = [count: results.size(), list: results] as JSON
         render model

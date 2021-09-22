@@ -42,7 +42,7 @@
 
                 <g:form resource="${this.contrato}" method="POST">
                     <input type="hidden" name="empresa" value="${empresaInstance?.id}">
-                    <input type="hidden" name="iLotes" id="lotesSelect" value="${this?.contrato*.lotes?.id}">
+                    <input type="hidden" name="iLotes" id="lotesSelect" value="${params?.iLotes}">
                     <input type="hidden" name="lotesJSON" id="lotesJSON" value="${params?.lotesJSON}">
                     <fieldset class="form">
                         <div class="form-row">
