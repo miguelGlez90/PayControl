@@ -24,11 +24,16 @@ window.onload = function() {
                 }, 1000);
             }
         } ).autocomplete("instance")._renderItem = function (ul, item) {
-            return $("<li>").append("<dl><dt>" + item.identificador + ": " + item.ubicacion + ": " + item.costo + "</dt></dl>").appendTo(ul);
+            if(item.id == 0)
+                return $("<li>").append("<dl><dt>" + item.identificador + "</dt></dl>").appendTo(ul);
+
+            if(item.id != 0)
+                return $("<li>").append("<dl><dt>" + item.identificador + ": " + item.ubicacion + ": " + item.costo + "</dt></dl>").appendTo(ul);
         };
     };
 
     iFindLote();
+    initLotes();
 };
 
 
@@ -40,9 +45,11 @@ function getMensualidad(){
     try{ costo = parseFloat(costo) } catch(e){ costo = 0; }
     try{ engance = parseFloat(engance) }catch (e){ engance = 0; }
     try{ plazo = parseInt(plazo) }catch (e){ plazo = 0; }
-    console.log("MENSUALIDAD| Costo: " + costo + "| enganche: " + engance + "| Plazo: "+ plazo);
-    console.log(parseFloat((costo-engance)/plazo));
-    document.getElementById("mesualidad").value = parseFloat((costo-engance)/plazo);
+
+    var mensualidad = parseFloat((costo-engance)/plazo);
+    if(mensualidad <= 0) mensualidad = 0;
+
+    document.getElementById("mesualidad").value =mensualidad;
 };
 
 function selectLotes(){
@@ -99,6 +106,7 @@ function operacionesLote(){
 function renderListLotes(){
     if(listaDeLotes.length <=0){
         document.getElementById('addLotes').innerHTML = "";
+        document.getElementById("lotesJSON").value = "";
         return true
     }
 
@@ -129,7 +137,8 @@ function renderListLotes(){
     htmlBody += "</tbody></table>"
 
     document.getElementById('addLotes').innerHTML = htmlBody;
-    document.getElementById("lotesJSON").value = listaDeLotes;
+    var myJsonString = JSON.stringify(listaDeLotes);
+    document.getElementById("lotesJSON").value = myJsonString;
 }
 
 function quitarLote(id){
@@ -152,5 +161,18 @@ function quitarLote(id){
     }
 }
 
+
+function initLotes(){
+    if(!document.getElementById("lotesJSON").value) return true;
+   let lotes = JSON.parse(document.getElementById("lotesJSON").value);
+
+    for (let i = 0; i < lotes.length; i++) {
+        let item = lotes[i];
+        const lote = {id: item.id, costo: item.costo, medidas: item.medidas, ubicacion: item.ubicacion, identificador: item.identificador};
+        listaDeLotes.push(lote);
+    }
+
+    refresLotes();
+}
 
 

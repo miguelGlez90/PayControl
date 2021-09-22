@@ -33,7 +33,7 @@
                 </div>
                 
                 <div class="table-responsive">
-                    <f:table collection="${contratoList}" except="['empresa']"/>
+                    <f:table collection="${contratoList}" except="['empresa', 'lotes']"/>
 
                     <div class="pagination">
                         <g:paginate total="${contratoCount ?: 0}" />
