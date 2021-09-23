@@ -44,7 +44,26 @@ class ContratoController {
         try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}"}
         if(!empresaInstance){ response.status = 404; return }
 
-        respond contratoService.get(id), model: [empresaInstance: empresaInstance]
+        def contrato = contratoService.get(id)
+        def c = Cobro.createCriteria()
+        def ti = c.list {
+            eq("empresa", empresaInstance)
+            and {
+                eq("contrato", contrato)
+                eq('cancelado', false)
+            }
+            projections {
+                sum "monto"
+                rowCount()
+            }
+        }
+
+        def monto = 0, count = 0
+
+        try{ monto = ti[0][0] as double }catch(e){ }
+        try{ count = ti[0][1] as Integer }catch(e){ }
+
+        respond contrato, model: [empresaInstance: empresaInstance, montoCobrado: monto, countCobrado: count]
     }
 
     def create() {
@@ -59,7 +78,6 @@ class ContratoController {
         def empresaInstance = null
         try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}" }
         if(!empresaInstance){ response.status = 404; return true }
-        println "params: ${params}"
 
         def itemsLote = []
         def result = params?.iLotes?.split(',').each{
@@ -67,7 +85,6 @@ class ContratoController {
         }
 
         def loteList = Lote.getAll(itemsLote)
-        println "loteList: ${loteList}"
 
         if(loteList.size() <= 0){
             flash.message= 'Favor de Seleccionar un Lote por lo menos'
@@ -77,6 +94,7 @@ class ContratoController {
 
         loteList.each{ contrato.addToLotes(it) }
 
+        contrato.deudaActual = contrato?.costo - contrato?.enganche
 
 
         if (contrato == null) {
@@ -108,7 +126,10 @@ class ContratoController {
         try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}" }
         if(!empresaInstance){ response.status = 404; return true }
 
-        respond contratoService.get(id), model: [empresaInstance: empresaInstance]
+        def coontrato = contratoService.get(id)
+        def cobroCount = Cobro.countByCanceladoAndCancelado(coontrato, false)
+
+        respond coontrato, model: [empresaInstance: empresaInstance, cobroCount: cobroCount]
     }
 
     def update(Contrato contrato) {
@@ -119,6 +140,13 @@ class ContratoController {
         if (contrato == null) {
             notFound()
             return
+        }
+
+        def coontrato = contratoService.get(id)
+        def cobroCount = Cobro.countByCanceladoAndCancelado(coontrato, false)
+
+        if(cobroCount <= 0){
+            contrato.deudaActual = contrato?.costo - contrato?.enganche
         }
 
         try {

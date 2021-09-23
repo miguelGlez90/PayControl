@@ -28,7 +28,18 @@
                     <div class="alert alert-info" role="alert">${flash.message}</div>
                 </g:if>
 
-                <f:display bean="contrato" except="['empresa']"/>
+                <f:display bean="contrato" except="['empresa','deudaActual']"/>
+                <br/>
+
+                <dl class="row">
+                    <dt class="col-sm-3">Número de Pagos</dt>
+                    <dd class="col-sm-9"> <b><span class="badge badge-pill badge-success">${countCobrado}</span></b> </dd>
+                    <dt class="col-sm-3">Total Pagado</dt>
+                    <dd class="col-sm-9"> <b><span class="badge badge-pill badge-info">$<g:formatNumber number="${montoCobrado}" format='###,###,##0.00' /></span></b> </dd>
+                    <dt class="col-sm-3">Saldo Actual</dt>
+                    <dd class="col-sm-9"> <b><span class="badge badge-pill badge-warning">$<g:formatNumber number="${contrato?.deudaActual}" format='###,###,##0.00' /></span></b> </dd>
+                </dl>
+                <br/>
                 <g:form resource="${this.contrato}" method="DELETE">
                     <fieldset class="buttons">
                         <g:link class="btn btn-outline-primary ripple-surface ripple-surface-dark" action="edit" resource="${this.contrato}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
