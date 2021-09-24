@@ -129,7 +129,9 @@ class ContratoController {
         def coontrato = contratoService.get(id)
         def cobroCount = Cobro.countByCanceladoAndCancelado(coontrato, false)
 
-        respond coontrato, model: [empresaInstance: empresaInstance, cobroCount: cobroCount]
+        def lotes = getLotes(coontrato) as JSON
+
+        respond coontrato, model: [empresaInstance: empresaInstance, cobroCount: cobroCount, iLotes: lotes]
     }
 
     def update(Contrato contrato) {
@@ -272,5 +274,20 @@ class ContratoController {
 
         def model = [count: results.size(), list: results] as JSON
         render model
+    }
+
+    def getLotes ={Contrato contrato1->
+        def list = contrato1?.lotes
+        list = list.collect{
+            [
+                    id: it?.id,
+                    identificador: it?.identificador,
+                    costo: it?.costo,
+                    medidas: it?.medidas,
+                    ubicacion: it?.ubicacion,
+            ]
+        }
+
+        return [list: list, count: list.size()]
     }
 }
