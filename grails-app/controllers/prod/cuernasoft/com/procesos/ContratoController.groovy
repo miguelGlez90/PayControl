@@ -126,12 +126,30 @@ class ContratoController {
         try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}" }
         if(!empresaInstance){ response.status = 404; return true }
 
-        def coontrato = contratoService.get(id)
-        def cobroCount = Cobro.countByCanceladoAndCancelado(coontrato, false)
+        def contrato = contratoService.get(id)
+        def cobroCount = Cobro.countByContratoAndCancelado(contrato, false)
 
-        def lotes = getLotes(coontrato) as JSON
 
-        respond coontrato, model: [empresaInstance: empresaInstance, cobroCount: cobroCount, iLotes: lotes]
+        def c = Cobro.createCriteria()
+        def ti = c.list {
+            eq("empresa", empresaInstance)
+            and {
+                eq("contrato", contrato)
+                eq('cancelado', false)
+            }
+            projections {
+                sum "monto"
+                rowCount()
+            }
+        }
+
+        def monto = 0
+        try{ monto = ti[0][0] as double }catch(e){ }
+
+        def lotesModel = lotesList.call(contrato)
+        def lotesList = lotesModel?.list as JSON
+
+        respond contrato, model: [empresaInstance: empresaInstance, montoCobrado: monto, cobroCount: cobroCount, lotesJSON: lotesList]
     }
 
     def update(Contrato contrato) {
@@ -144,19 +162,57 @@ class ContratoController {
             return
         }
 
-        def coontrato = contratoService.get(id)
-        def cobroCount = Cobro.countByCanceladoAndCancelado(coontrato, false)
+        def cobroCount = Cobro.countByContratoAndCancelado(contrato, false)
+        def c = Cobro.createCriteria()
+        def ti = c.list {
+            eq("empresa", empresaInstance)
+            and {
+                eq("contrato", contrato)
+                eq('cancelado', false)
+            }
+            projections {
+                sum "monto"
+                rowCount()
+            }
+        }
 
+        def lotesModel = lotesList.call(contrato)
+        def lotesList = lotesModel?.list as JSON
+
+        def monto = 0
+        try{ monto = ti[0][0] as double }catch(e){ }
+
+
+        def loteList
         if(cobroCount <= 0){
+            updateLotes.call(contrato.lotes, false)
+            contrato.lotes = null
+            def itemsLote = []
+            def result = params?.iLotes?.split(',').each{
+                try{ itemsLote.add(it as Integer) }catch(e){ }
+            }
+
+            loteList = Lote.getAll(itemsLote)
+
+            if(loteList.size() <= 0){
+                flash.message= 'Favor de Seleccionar un Lote por lo menos'
+                respond contrato.errors, view:'create', model: [empresaInstance: empresaInstance, iLotes: params?.iLotes, lotesJSON: params?.lotesJSON]
+                return
+            }
+
+            loteList.each{ contrato.addToLotes(it) }//Add-lotes()
             contrato.deudaActual = contrato?.costo - contrato?.enganche
         }
 
         try {
             contratoService.save(contrato)
         } catch (ValidationException e) {
-            respond contrato.errors, view:'edit', model: [empresaInstance: empresaInstance]
+            respond contrato.errors, view:'edit', model: [empresaInstance: empresaInstance, montoCobrado: monto, cobroCount: cobroCount, lotesJSON: lotesList]
             return
         }
+
+        //Marca lotes como Vendido = true
+        if(cobroCount <= 0 && loteList) updateLotes.call(loteList)
 
         request.withFormat {
             form multipartForm {
@@ -172,6 +228,9 @@ class ContratoController {
             notFound()
             return
         }
+
+        def contratoInst = Contrato.get(id)
+        updateLotes.call(contratoInst?.lotes, false)
 
         contratoService.delete(id)
 
@@ -243,10 +302,9 @@ class ContratoController {
         return "\$" + formatted;
     }
 
-    def updateLotes = { lotes->
-        println "UPDATELOTES: ${lotes}"
+    def updateLotes = { lotes, vendido = true->
         lotes.each{
-            it.vendido = true
+            it.vendido = vendido
             try { loteService.save(it) } catch (ValidationException e) { println "ERROR|UPDATE-LOTE| ${e}"}
         }
     }
@@ -276,7 +334,7 @@ class ContratoController {
         render model
     }
 
-    def getLotes ={Contrato contrato1->
+    def lotesList={contrato1->
         def list = contrato1?.lotes
         list = list.collect{
             [

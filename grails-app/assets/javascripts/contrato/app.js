@@ -1,7 +1,7 @@
 var listaDeLotes = [];
 
 window.onload = function() {
-    $( "#fecha" ).datepicker({ dateFormat:'yy-mm-dd' });
+    if(document.getElementById('fecha')) $( "#fecha" ).datepicker({ dateFormat:'yy-mm-dd' });
 
     function iFindLote(){
         $( "#iFindLote").autocomplete({
@@ -161,17 +161,18 @@ function quitarLote(id){
     }
 }
 
-
 function initLotes(){
     if(!document.getElementById("lotesJSON").value) return true;
-   let lotes = JSON.parse(document.getElementById("lotesJSON").value);
+    let lotes = JSON.parse(document.getElementById("lotesJSON").value);
+    let ids = [];
 
     for (let i = 0; i < lotes.length; i++) {
-        let item = lotes[i];
+        var item = lotes[i];
+        ids.push(item.id)
         const lote = {id: item.id, costo: item.costo, medidas: item.medidas, ubicacion: item.ubicacion, identificador: item.identificador};
         listaDeLotes.push(lote);
     }
-
+    document.getElementById('lotesSelect').value = ids;
     refresLotes();
 }
 
