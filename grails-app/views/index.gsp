@@ -5,6 +5,9 @@
     <title>Bienvenido</title>
 
 </head>
+
+<g:set var="resumenc" bean="prod.cuernasoft.com.admin.ResumenController"/>
+
 <body class="grey lighten-3">
 
 
@@ -49,23 +52,13 @@
 
         <!--Card-->
         <div class="card mb-4">
-
-            <!-- Card header -->
-            <div class="card-header text-center">
-                Pie chart
-            </div>
+            <div class="card-header text-center"> Resumen Lotes</div>
 
             <!--Card content-->
-            <div class="card-body">
-
-                <canvas id="pieChart"></canvas>
-
-            </div>
+            <div class="card-body"> <canvas id="pieChart"></canvas> </div>
 
         </div>
-        <!--/.Card-->
 
-        <!--Card-->
         <div class="card mb-4">
 
             <!--Card content-->
@@ -73,24 +66,25 @@
 
                 <!-- List group links -->
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action waves-effect">Sales
-                        <span class="badge badge-success badge-pill pull-right">22%
+                    <a class="list-group-item list-group-item-action waves-effect">Lotes Vendidos
+                        <span class="badge badge-success badge-pill pull-right"><spand id="iLotesVendidosTotal"></spand>
                             <i class="fas fa-arrow-up ml-1"></i>
                         </span>
                     </a>
-                    <a class="list-group-item list-group-item-action waves-effect">Traffic
-                        <span class="badge badge-danger badge-pill pull-right">5%
+                    <a class="list-group-item list-group-item-action waves-effect">Lotes Pendientes
+                        <span class="badge badge-danger badge-pill pull-right"><spand id="iLotesPendientesTotal"></spand>
                             <i class="fas fa-arrow-down ml-1"></i>
                         </span>
                     </a>
-                    <a class="list-group-item list-group-item-action waves-effect">Orders
-                        <span class="badge badge-primary badge-pill pull-right">14</span>
+                    <a class="list-group-item list-group-item-action waves-effect">Contratos Cerrados
+                        <span class="badge badge-success badge-pill pull-right"><spand id="iContratosCerradosTotal"></spand>
+                            <i class="fas fa-arrow-up ml-1"></i>
+                        </span>
                     </a>
-                    <a class="list-group-item list-group-item-action waves-effect">Issues
-                        <span class="badge badge-primary badge-pill pull-right">123</span>
-                    </a>
-                    <a class="list-group-item list-group-item-action waves-effect">Messages
-                        <span class="badge badge-primary badge-pill pull-right">8</span>
+                    <a class="list-group-item list-group-item-action waves-effect">Contratos Abiertos
+                        <span class="badge badge-danger badge-pill pull-right"><spand id="iContratosPendientesTotal"></spand>
+                            <i class="fas fa-arrow-down ml-1"></i>
+                        </span>
                     </a>
                 </div>
                 <!-- List group links -->
@@ -100,37 +94,44 @@
         </div>
         <!--/.Card-->
 
+    <input type="hidden" name="iResumenAll" id="iResumenAll" value="${resumenc.getResumenAll()}">
+    <input type="hidden" name="iResumenLotes" id="iResumenLotes" value="${resumenc.getResumenLotes()}">
     </div>
     <!--Grid column-->
 
 </div>
 <!--Grid row-->
 <script type="application/javascript">
-    function test(){
-        // Line
+    function initScript(){
+        var items = document.getElementById("iResumenAll").value;
+        items = JSON.parse(items);
+        let listado = [items.lotesVendiso, items.lotesPendientes, items.contratosAbiertos, items.contratosCerrados];
+
+        initChat(listado);
+        initPie();
+        resumenFinal(listado);
+    };
+
+    function initChat(listado){
         var ctx = document.getElementById("myChart").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ["Lotes Vendidos", "Lotes Pendientes", "Contratos abiertos", "Contratos Cerrados"],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: '# Resumen',
+                    data: listado,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
                         'rgba(255, 206, 86, 0.2)',
                         'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
                     ],
                     borderColor: [
                         'rgba(255,99,132,1)',
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'rgba(75, 192, 192, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -145,17 +146,23 @@
                 }
             }
         });
+    }
 
-        //pie
+    function initPie(){
+        var items = document.getElementById("iResumenLotes").value;
+        items = JSON.parse(items);
+        console.log(items);
+        let listado = [items.pendientes, items.vendidos];
+
         var ctxP = document.getElementById("pieChart").getContext('2d');
         var myPieChart = new Chart(ctxP, {
             type: 'pie',
             data: {
-                labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+                labels: ["Pendientes", "Vendidos"],
                 datasets: [{
-                    data: [300, 50, 100, 40, 120],
-                    backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                    data: listado,
+                    backgroundColor: ["#F7464A", "#46BFBD"],
+                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
                 }]
             },
             options: {
@@ -163,10 +170,18 @@
                 legend: false
             }
         });
-    };
+    }
 
+    function resumenFinal(listado){
+        //let listado = [items.lotesVendiso, items.lotesPendientes, items.contratosAbiertos, items.contratosCerrados];
+        document.getElementById("iLotesVendidosTotal").innerHTML = listado[0];
+        document.getElementById("iLotesPendientesTotal").innerHTML = listado[1];
 
-    window.onload = test;
+        document.getElementById("iContratosCerradosTotal").innerHTML = listado[3];
+        document.getElementById("iContratosPendientesTotal").innerHTML = listado[2];
+    }
+
+    window.onload = initScript;
 
 
 
