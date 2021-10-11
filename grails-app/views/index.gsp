@@ -17,7 +17,7 @@
     <div class="card-body d-sm-flex justify-content-between">
 
         <h4 class="mb-2 mb-sm-0 pt-1">
-            <a href="javascript: void(0)" target="_blank">Bienvedido</a>
+            <a href="javascript: void(0)" target="_blank">Bienvenido</a>
             <span>/</span>
             <span>Dashboard</span>
         </h4>
