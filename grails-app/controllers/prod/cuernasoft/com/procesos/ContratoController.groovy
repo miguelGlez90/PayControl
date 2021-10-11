@@ -275,7 +275,8 @@ class ContratoController {
                 numero: it?.numero,
                 costo: stringToDecimal.call(it?.deudaActual),
                 comprador: it?.comprador,
-                mesualidad: it?.mesualidad
+                mesualidad: it?.mesualidad,
+                deudaActual: it?.deudaActual
             ]
         }
 

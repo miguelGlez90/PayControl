@@ -45,12 +45,15 @@
                             <g:field type="text" id="contratoNumber" name="contratoNumber" class="form-control" value="" />
                         </div>
                         <div class="form-group col-md-6">
+                            <label for="fecha">Fecha *</label>
+                            <g:field type="text" id="fecha" autocomplete="off" name="fecha" class="form-control" value="${this.cobro?.fecha?.format('yyyy-MM-dd')}" placeholder="Fecha" required="true" />
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="monto">Monto</label>
                             <g:field type="text" onkeypress="javascript:return toDecimal(event,this);" id="monto" name="monto" class="form-control" value="" />
                         </div>
                         <div class="form-group col-md-6">
                             <label for="formaDePago">Forma de pago</label>
-                            <label>Forma de pago</label>
                             <select class="form-control" id="formaDePago" name="formaDePago">
                                 <option value="0">Efectivo</option>
                                 <option value="1">Cheque</option>
@@ -93,42 +96,6 @@
             return true;
         }
     </script>
-    <script>        
-        window.onload = function() {
-            autoCompleteProducto('contratoNumber', $('#linkSearchContract').html());
-
-
-            function autoCompleteProducto(iElementId, url) {
-                if(!iElementId) return true;
-                if(!document.getElementById(iElementId)) return false;
-
-                $( "#"+ iElementId ).autocomplete({
-                    source: function( request, response ) {
-                        $.ajax( {
-                            url: url,
-                            data: { frase: request.term },
-                            success: function( data ) {
-                                response( data.list );
-                            }
-                        } );
-                    },
-                    minLength: 1,
-                    select: function( event, ui ) {
-                        if(ui.item.id > 0){
-                            setTimeout(function(){
-                                document.getElementById('contratoNumber').value = ui.item.numero;
-                                document.getElementById('monto').value = ui.item.mesualidad;
-                            }, 400);
-                        }else{
-                            document.getElementById('contratoNumber').value = '';
-                        }
-                    }
-                } ).autocomplete("instance")._renderItem = function (ul, item) {
-                    if(item.id <= 0) return $("<li>").append("<dl><dt>" + item.nombre + "</dt></dl>").appendTo(ul);
-                    if(item.id > 0) return $("<li>").append("<dl><dt>" + item.numero + ": " + item.comprador.nombre + " (" + item.costo + ")</dt></dl>").appendTo(ul);
-                };
-            };
-        };
-    </script>
+    <asset:javascript src="cobro/app.js"></asset:javascript>
     </body>
 </html>

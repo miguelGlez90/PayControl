@@ -49,8 +49,8 @@
                             <g:field type="text" id="contrato_v" name="contrato_v" readonly="true" class="form-control" value="${this.cobro?.contrato}"/>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="fecha_v">Fecha</label>
-                            <g:field type="text" id="fecha_v" name="fecha_v" readonly="true" class="form-control" value="${this.cobro?.fecha}"/>
+                            <label for="fecha">Fecha</label>
+                            <g:field type="text" id="fecha" autocomplete="off" name="fecha" class="form-control" value="${this.cobro?.fecha?.format('yyyy-MM-dd')}" placeholder="Fecha" required="true" />
                         </div>
                         <div class="form-group col-md-6">
                             <label for="formaPago">Forma de pago</label>
@@ -61,8 +61,12 @@
                                 <option value="2" <g:if test="${this.cobro?.formaPago == 2}">selected</g:if>>Transferencia Bancaria o Dep&oacute;sito Bancario</option>
                                 <option value="3" <g:if test="${this.cobro?.formaPago == 3}">selected</g:if>>Bienes/Servicios</option>
                             </select>
+                        </div>                        
+                        <div class="form-group col-md-6">
+                            <label for="fecha_v">Monto</label>
+                            <g:field type="text" onkeypress="javascript:return toDecimal(event,this);" id="monto" name="monto" class="form-control" value="${this.cobro?.monto}" />
                         </div>
-                        <f:all bean="cobro" order="['monto', 'referencia']"/>
+                        <f:all bean="cobro" order="['referencia']"/>
                     </fieldset>
                     <br/>
                     <fieldset class="buttons">
@@ -74,5 +78,26 @@
             </div>
         </div>
     </div>
+    <script type="application/javascript">
+        function toDecimal(evt, el) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            var number = el.value.split('.');
+            if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            //just one dot (thanks ddlab)
+            if (number.length > 1 && charCode === 46) {
+                return false;
+            }
+            //get the carat position
+            var caratPos = getSelectionStart(el);
+            var dotPos = el.value.indexOf(".");
+            if (caratPos > dotPos && dotPos > -1 && (number[1].length > 1)) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <asset:javascript src="cobro/app.js"></asset:javascript>
     </body>
 </html>

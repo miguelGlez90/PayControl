@@ -42,7 +42,6 @@
                             <g:sortableColumn property="contrato" title="Contrato" />
                             <g:sortableColumn property="monto" title="Monto" />
                             <g:sortableColumn property="fecha" title="Fecha" />
-                            <g:sortableColumn property="cancelado" title="Cancelado" />
                             <g:sortableColumn property="creadoPor" title="Creado Por" />
                             <th scope="col">&nbsp;</th>
                             <!--th scope="col">&nbsp;</th-->
@@ -57,7 +56,6 @@
                             <td>${cobro?.contrato}</td>
                             <td>${cobro?.monto}</td>
                             <td><g:formatDate format="dd/MM/yyyy" date="${cobro?.fecha}"/></td>
-                            <td><g:if test="${cobro?.cancelado}">Si</g:if><g:if test="${!cobro?.cancelado}">No</g:if></td>
                             <td>${cobro?.creadoPor}</td>
 
                             <td>
@@ -68,13 +66,13 @@
                             </g:form>
                             </td>
 
-                            <!--td>
+                            <td>
                                 <g:form resource="${cobro}" method="DELETE">
-                                    <button type="submit" onclick="return confirm('¿Desea cancelar el cobro seleccionado?');" class="btn btn-outline-danger btn-rounded ripple-surface ripple-surface-dark btn-sm">
-                                        CANCELAR
+                                    <button type="submit" onclick="return confirm('¿Desea borrar el cobro seleccionado?');" class="btn btn-outline-danger btn-rounded ripple-surface ripple-surface-dark btn-sm">
+                                        BORRAR
                                     </button>
                                 </g:form>
-                            </td-->
+                            </td>
 
                             <td>
                                 <g:form resource="${cobro}" action="show" method="POST">
