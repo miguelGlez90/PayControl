@@ -95,6 +95,7 @@ class ContratoController {
         loteList.each{ contrato.addToLotes(it) }
 
         contrato.deudaActual = contrato?.costo - contrato?.enganche
+        contrato.mesualidad = (contrato?.costo - contrato?.enganche)/contrato?.plazoCompra
 
 
         if (contrato == null) {
@@ -202,6 +203,7 @@ class ContratoController {
 
             loteList.each{ contrato.addToLotes(it) }//Add-lotes()
             contrato.deudaActual = contrato?.costo - contrato?.enganche
+            contrato.mesualidad = (contrato?.costo - contrato?.enganche)/contrato?.plazoCompra
         }
 
         try {

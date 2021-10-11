@@ -49,7 +49,7 @@ function getMensualidad(){
     var mensualidad = parseFloat((costo-engance)/plazo);
     if(mensualidad <= 0) mensualidad = 0;
 
-    document.getElementById("mesualidad").value =mensualidad;
+    document.getElementById("mesualidad").value = roundAccurately(mensualidad, 2);
 };
 
 function selectLotes(){
@@ -176,4 +176,8 @@ function initLotes(){
     refresLotes();
 }
 
+function roundAccurately(cantidad, decimales){
+    var exp = Math.pow(10, decimales || 2); // 2 decimales por defecto
+    return parseInt(cantidad * exp, 10) / exp;
+};
 
