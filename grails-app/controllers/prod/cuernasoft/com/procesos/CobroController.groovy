@@ -14,8 +14,22 @@ class CobroController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+        /*params.max = Math.min(max ?: 10, 100)
+        respond cobroService.list(params), model:[cobroCount: cobroService.count()]*/
+        
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ }
+        if(!empresaInstance){ response.status = 404; return }
+
         params.max = Math.min(max ?: 10, 100)
-        respond cobroService.list(params), model:[cobroCount: cobroService.count()]
+
+        def c = Cobro.createCriteria()
+        def results = c.list (max: params.max, offset: params?.offset){
+            eq("empresa", empresaInstance)
+            order("contrato", "desc")
+            order("id", "desc")
+        }
+        respond results, model:[cobroCount: results.totalCount]
     }
 
     def show(Long id) {
@@ -51,10 +65,18 @@ class CobroController {
             cobro.folio = this.getMaxCobro(contract);
             cobro.empresa = empresaInstance;
             cobro.creadoPor = usuarioInstance
+            cobro.formaPago = params?.formaDePago as int
             cobroService.save(cobro)
-            //Update saldo del contrato
-            contract.deudaActual = contract.deudaActual - cobro.monto;
-            contratoService.save(contract as Contrato)
+            //VALIDACION DE MONTOS
+            if(contract.deudaActual >= cobro.monto){
+                //Update saldo del contrato
+                contract.deudaActual = contract.deudaActual - cobro.monto;
+                contratoService.save(contract as Contrato)
+            } else {
+                flash.message = "El monto no puede ser superior a la deuda actual: (" + contract.deudaActual + ")."
+                respond cobro.errors, view:'create'
+                return
+            }
         } catch (ValidationException e) {
             respond cobro.errors, view:'create'
             return
@@ -112,7 +134,18 @@ class CobroController {
             notFound()
             return
         }
-
+        
+        //Actualización de saldo
+        def cobro = Cobro.get(id);
+        def contrato = cobro?.contrato;
+        def deudaActualContrato = cobro?.contrato.deudaActual as double;
+        //Ahora descontamos el monto del cobro modificado
+        deudaActualContrato = deudaActualContrato + cobro.monto;
+        //Seteamos nueva deuda
+        contrato.deudaActual = deudaActualContrato;
+        //Actualiza contrato:
+        contratoService.save(contrato as Contrato)
+        //Elimina cobro
         cobroService.delete(id)
 
         request.withFormat {

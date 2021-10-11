@@ -33,7 +33,7 @@
                         <dd class="col-sm-9">${this.cobro?.folio}</dd>
                         
                         <dt class="col-sm-3">Fecha</dt>
-                        <dd class="col-sm-9"><g:formatDate format="dd/MM/yyyy mm:ss" date="${this.cobro?.fecha}"/></dd>
+                        <dd class="col-sm-9"><g:formatDate format="dd/MM/yyyy" date="${this.cobro?.fecha}"/></dd>
                         
                         <dt class="col-sm-3">Creado por</dt>
                         <dd class="col-sm-9">${this.cobro?.creadoPor}</dd>
