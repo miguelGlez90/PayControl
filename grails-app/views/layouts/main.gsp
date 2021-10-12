@@ -75,7 +75,7 @@
         </nav>
 
         <div class="sidebar-fixed position-fixed" style="background-image: linear-gradient(to right, #141e30, #243b55) !important; ">
-            <a class="logo-wrapper waves-effect">
+            <a href="${createLink(uri: '/')}" class="logo-wrapper waves-effect">
                 <asset:image src="iconVentaLotes.ico" alt="Inicio" class="img-fluid"/>
             </a>
 

@@ -1,6 +1,7 @@
 package prod.cuernasoft.com.procesos
 
 import grails.validation.ValidationException
+import java.text.SimpleDateFormat
 import static org.springframework.http.HttpStatus.*
 import java.util.Formatter;
 import prod.cuernasoft.com.seguridad.Usuario;
@@ -16,16 +17,41 @@ class CobroController {
     def index(Integer max) {
         /*params.max = Math.min(max ?: 10, 100)
         respond cobroService.list(params), model:[cobroCount: cobroService.count()]*/
+        SimpleDateFormat formatterSql = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss")
         
         def empresaInstance = null
         try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ }
         if(!empresaInstance){ response.status = 404; return }
 
         params.max = Math.min(max ?: 10, 100)
+        def contract
+        
+        if(params?.contratoNumber){
+            contract = Contrato.findByEmpresaAndNumero(empresaInstance, params?.contratoNumber)
+        }
+        
+        def dateIni
+        def dateFin
+        if(params?.fecha && params?.fecha?.toString() != ''){
+            dateIni = formatterSql.parse(params?.fecha+" 00:00:00")
+            dateFin = formatterSql.parse(params?.fecha+" 23:59:59")
+        }
 
         def c = Cobro.createCriteria()
         def results = c.list (max: params.max, offset: params?.offset){
             eq("empresa", empresaInstance)
+            and {
+                if(params?.folio){
+                    like("folio", "%" + params?.folio + "%")
+                }
+                if(contract){
+                    eq("contrato", contract)
+                }
+                
+                if(params?.fecha){
+                    between("fecha", dateIni, dateFin)
+                }
+            }
             order("contrato", "desc")
             order("id", "desc")
         }
@@ -71,6 +97,12 @@ class CobroController {
             if(contract.deudaActual >= cobro.monto){
                 //Update saldo del contrato
                 contract.deudaActual = contract.deudaActual - cobro.monto;
+                //Valida Apertura de contrato
+                if(contract.deudaActual == 0){
+                    contract.abierto = false;
+                } else {
+                    contract.abierto = true;
+                }
                 contratoService.save(contract as Contrato)
             } else {
                 flash.message = "El monto no puede ser superior a la deuda actual: (" + contract.deudaActual + ")."
@@ -111,10 +143,24 @@ class CobroController {
             deudaActualContrato = deudaActualContrato - cobro.monto;
             //Seteamos nueva deuda
             contrato.deudaActual = deudaActualContrato;
-            //Actualiza cobro
-            cobroService.save(cobro)
-            //Actualiza contrato:
-            contratoService.save(contrato as Contrato)
+            
+            //VALIDACION DE MONTOS ********** FALTA ***********
+            if(contrato.deudaActual >= cobro.monto){
+                //Valida Apertura de contrato
+                if(contrato.deudaActual == 0){
+                    contrato.abierto = false;
+                } else {
+                    contrato.abierto = true;
+                }
+                //Actualiza cobro
+                cobroService.save(cobro)
+                //Actualiza contrato:
+                contratoService.save(contrato as Contrato)
+            } else {
+                flash.message = "El monto no puede ser superior a la deuda actual: (" + contract.deudaActual + ")."
+                respond cobro.errors, view:'edit'
+                return
+            }
         } catch (ValidationException e) {
             respond cobro.errors, view:'edit'
             return
@@ -143,6 +189,12 @@ class CobroController {
         deudaActualContrato = deudaActualContrato + cobro.monto;
         //Seteamos nueva deuda
         contrato.deudaActual = deudaActualContrato;
+        //Valida Apertura de contrato
+        if(contrato.deudaActual == 0){
+            contrato.abierto = false;
+        } else {
+            contrato.abierto = true;
+        }
         //Actualiza contrato:
         contratoService.save(contrato as Contrato)
         //Elimina cobro

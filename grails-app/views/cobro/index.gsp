@@ -18,7 +18,36 @@
         </div>
     </div>
 
+    <div class="col-lg-12 col-md-12 mb-12">
+        <div class="card">
+            <div class="card-header"># Buscador</div>
+            <div class="card-body">
+                <g:form action="index" method="post">
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="folio">Folio</label>
+                            <input type="text" name="folio" id="folio" class="form-control" value="${params?.folio ? params?.folio : ''}" placeholder="Folio">
+                        </div>
 
+                        <div class="col">
+                            <label for="contratoNumber">Contrato</label>
+                            <g:field type="text" id="contratoNumber" name="contratoNumber" class="form-control" value="${params?.contratoNumber ? params?.contratoNumber : ''}" placeholder="Contrato"/>
+                        </div>
+
+                        <div class="col">
+                            <label for="fecha">Fecha</label>
+                            <g:field type="text" id="fecha" autocomplete="off" name="fecha" class="form-control" value="" placeholder="Fecha"/>
+                        </div>
+
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </g:form>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    
     <div class="col-lg-12 col-md-12 mb-12">
         <div class="card">
             <div class="card-header"><g:message code="default.list.label" args="[entityName]"/></div>
@@ -94,5 +123,48 @@
             </div>
         </div>
     </div>
+    <span id="linkSearchContract" style="display: none">${createLink(controller: 'contrato', action: 'searchContractAjax')}</span>
+    <script>
+        window.onload = function () {
+        if (document.getElementById('fecha'))
+            $("#fecha").datepicker({dateFormat: 'yy-mm-dd'});
+
+        autoCompleteProducto('contratoNumber', $('#linkSearchContract').html());
+
+        function autoCompleteProducto(iElementId, url) {
+            if (!iElementId)
+                return true;
+            if (!document.getElementById(iElementId))
+                return false;
+
+            $("#" + iElementId).autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: url,
+                        data: {frase: request.term},
+                        success: function (data) {
+                            response(data.list);
+                        }
+                    });
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    if (ui.item.id > 0) {
+                        setTimeout(function () {
+                            document.getElementById('contratoNumber').value = ui.item.numero;
+                        }, 400);
+                    } else {
+                        document.getElementById('contratoNumber').value = '';
+                    }
+                }
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                if (item.id <= 0)
+                    return $("<li>").append("<dl><dt>" + item.nombre + "</dt></dl>").appendTo(ul);
+                if (item.id > 0)
+                    return $("<li>").append("<dl><dt>" + item.numero + ": " + item.comprador.nombre + ")</dt></dl>").appendTo(ul);
+            };
+        };
+    };
+    </script>
     </body>
 </html>

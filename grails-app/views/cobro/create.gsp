@@ -41,7 +41,7 @@
                 <g:form resource="${this.cobro}" method="POST">
                     <fieldset class="form">
                         <div class="form-group col-md-6">
-                            <label for="rfc">Contrato</label>
+                            <label for="contratoNumber">Contrato</label>
                             <g:field type="text" id="contratoNumber" name="contratoNumber" class="form-control" value="" />
                         </div>
                         <div class="form-group col-md-6">
