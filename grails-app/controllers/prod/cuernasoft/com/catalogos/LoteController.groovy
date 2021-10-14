@@ -1,17 +1,39 @@
 package prod.cuernasoft.com.catalogos
 
 import grails.validation.ValidationException
+import prod.cuernasoft.com.seguridad.Usuario
+
 import static org.springframework.http.HttpStatus.*
 
 class LoteController {
 
     LoteService loteService
+    def springSecurityService
+    def IEmpresaService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+        def empresaInstance = null
+        try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){ println "ERROR: ${e}"}
+        if(!empresaInstance){ response.status = 404; return; }
+
         params.max = Math.min(max ?: 10, 100)
-        respond loteService.list(params), model:[loteCount: loteService.count()]
+        params?.offset = params?.offset ? params?.int('offset') : 0
+        params?.order = params?.order ? params?.order?.toString() : 'asc'
+        params?.sort = params?.sort ? params?.sort?.toString() : 'id'
+
+        def c = Lote.createCriteria()
+        def results = c.list (max: params.max, offset: params?.offset){
+            and{
+                if(params?.identificador) eq("identificador", params?.identificador)
+                if(params?.ubicacion) eq("ubicacion", params?.ubicacion)
+                if(params?.vendido?.toString() == 'true') eq('vendido', true)
+                if(params?.vendido?.toString() == 'false') eq('vendido', false)
+            }
+            order(params?.sort, params?.order)
+        }
+        respond results, model:[loteCount: results.totalCount, identificador: params?.identificador, ubicacion: params?.ubicacion, vendido: params?.vendido]
     }
 
     def show(Long id) {
