@@ -26,8 +26,8 @@ class LoteController {
         def c = Lote.createCriteria()
         def results = c.list (max: params.max, offset: params?.offset){
             and{
-                if(params?.identificador) eq("identificador", params?.identificador)
-                if(params?.ubicacion) eq("ubicacion", params?.ubicacion)
+                if(params?.identificador) like("identificador", "%${params?.identificador}%")
+                if(params?.ubicacion) like("ubicacion", "%${params?.ubicacion}%")
                 if(params?.vendido?.toString() == 'true') eq('vendido', true)
                 if(params?.vendido?.toString() == 'false') eq('vendido', false)
             }
