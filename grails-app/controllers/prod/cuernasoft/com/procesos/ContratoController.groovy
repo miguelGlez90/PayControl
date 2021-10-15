@@ -7,7 +7,7 @@ import prod.cuernasoft.com.catalogos.LoteService
 import java.text.DecimalFormat
 import grails.converters.JSON
 import prod.cuernasoft.com.admin.Empresa
-import prod.cuernasoft.com.catalogos.Comprador
+import org.hibernate.criterion.CriteriaSpecification
 
 import static org.springframework.http.HttpStatus.*
 
@@ -28,15 +28,24 @@ class ContratoController {
         params?.offset = params?.offset ? params?.int('offset') : 0
         params?.order = params?.order ? params?.order?.toString() : 'desc'
         params?.sort = params?.sort ? params?.sort?.toString() : 'id'
-        println params
 
         def c = Contrato.createCriteria()
         def results = c.list (max: params.max, offset: params?.offset){
             eq('empresa', empresaInstance)
+            if(params?.vendedor) createAlias("vendedor", "v", CriteriaSpecification.LEFT_JOIN)
+            if(params?.comprador) createAlias("comprador", "co", CriteriaSpecification.LEFT_JOIN)
+
+            and{
+                if(params?.numero) eq("numero", params?.numero)
+                if(params?.vendedor) like("v.nombre", "%${params?.vendedor}%")
+                if(params?.comprador) like("co.nombre", "%${params?.comprador}%")
+                if(params?.abierto?.toString() == 'true') eq('abierto', true)
+                if(params?.abierto?.toString() == 'false') eq('abierto', false)
+            }
             order(params?.sort, params?.order)
         }
 
-        respond results, model:[contratoCount: results.totalCount]
+        respond results, model:[contratoCount: results.totalCount, numero: params?.numero, vendedor: params?.vendedor, comprador: params?.comprador, abierto: params?.abierto]
     }
 
     def show(Long id) {

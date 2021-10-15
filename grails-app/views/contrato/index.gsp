@@ -18,6 +18,44 @@
         </div>
     </div>
 
+    <div class="col-lg-12 col-md-12 mb-12">
+        <div class="card">
+            <div class="card-header"># Buscador</div>
+            <div class="card-body">
+                <g:form action="index" method="post">
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="numero">Número</label>
+                            <input type="text" name="numero" id="numero" class="form-control" value="${params?.numero ? params?.numero : ''}" placeholder="Número" autocomplete="nope">
+                        </div>
+
+                        <div class="col">
+                            <label for="vendedor">Vendedor</label>
+                            <input type="text" name="vendedor" id="vendedor" class="form-control" value="${params?.vendedor ? params?.vendedor : ''}" placeholder="Vendedor" autocomplete="nope">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="comprador">Comprador</label>
+                            <input type="text" name="comprador" id="comprador" class="form-control" value="${params?.comprador ? params?.comprador : ''}" placeholder="Comprador" autocomplete="nope">
+                        </div>
+
+                        <div class="col">
+                            <label for="abierto">Abierto</label>
+                            <g:select name="abierto" id="abierto" from="${[[id: true, value: "SI"],[id: false, value: "NO"]]}" optionKey="${{it.id}}" optionValue="${{it.value}}" value="${params?.abierto}" noSelection="[null: '-Todos-']" class="form-control"/>
+                        </div>
+
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </g:form>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+
 
     <div class="col-lg-12 col-md-12 mb-12">
         <div class="card">
@@ -36,7 +74,7 @@
                     <f:table collection="${contratoList}" except="['empresa', 'lotes']"/>
 
                     <div class="pagination">
-                        <g:paginate total="${contratoCount ?: 0}" />
+                        <g:paginate total="${contratoCount ?: 0}" params="[numero: params?.numero, vendedor: params?.vendedor, comprador: params?.comprador, abierto: params?.abierto]"/>
                     </div>
                 </div>
             </div>
