@@ -4,6 +4,7 @@ import prod.cuernasoft.com.admin.Empresa
 import prod.cuernasoft.com.catalogos.Comprador
 import prod.cuernasoft.com.catalogos.Lote
 import prod.cuernasoft.com.catalogos.Vendedor
+import prod.cuernasoft.com.seguridad.Usuario
 
 class Contrato {
     Empresa empresa
@@ -19,6 +20,9 @@ class Contrato {
     int diaPago = 1
     int plazoCompra = 24 //Numero de meses a pagar
     boolean abierto = true
+    boolean cancelado = false
+    Usuario usuarioCancelo
+    Date fechaCancelada
     
     static hasMany = [lotes:Lote]
 
@@ -29,6 +33,9 @@ class Contrato {
         costo (nullable: false, blank: false)
         enganche (nullable: true, blank: true)
         lotes (nullable: true, blank: false)
+        cerrado (nullable: true, blank: true)
+        usuarioCerro (nullable: true, blank: true)
+        fechaCerrado (nullable: true, blank: true)
     }
     
     
