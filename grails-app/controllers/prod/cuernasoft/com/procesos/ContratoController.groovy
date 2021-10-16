@@ -3,6 +3,7 @@ package prod.cuernasoft.com.procesos
 import grails.validation.ValidationException
 import prod.cuernasoft.com.catalogos.Lote
 import prod.cuernasoft.com.catalogos.LoteService
+import prod.cuernasoft.com.seguridad.Usuario
 
 import java.text.DecimalFormat
 import grails.converters.JSON
@@ -15,6 +16,7 @@ class ContratoController {
     def IEmpresaService
     ContratoService contratoService
     LoteService loteService
+    def springSecurityService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -41,6 +43,8 @@ class ContratoController {
                 if(params?.comprador) like("co.nombre", "%${params?.comprador}%")
                 if(params?.abierto?.toString() == 'true') eq('abierto', true)
                 if(params?.abierto?.toString() == 'false') eq('abierto', false)
+                if(params?.cancelado?.toString() == 'true') eq('cancelado', true)
+                if(params?.cancelado?.toString() == 'false') eq('cancelado', false)
             }
             order(params?.sort, params?.order)
         }
@@ -239,8 +243,15 @@ class ContratoController {
             notFound()
             return
         }
-
         def contratoInst = Contrato.get(id)
+        def cobroCount = Cobro.countByContratoAndCancelado(contratoInst, false)
+
+        if(cobroCount >= 0){
+            flash.message= "Este contrato [Número: ${contratoInst?.numero}] No se puede Eliminar porque cuenta con al menos un cobro asignado"
+            redirect(view:'index', params:[offset: params?.offset, max: params?.max, numero: params?.numero, vendedor: params?.vendedor, comprador: params?.comprador, abierto: params?.abierto, cancelado: params?.cancelado])
+            return
+        }
+
         updateLotes.call(contratoInst?.lotes, false)
 
         contratoService.delete(id)
@@ -251,6 +262,46 @@ class ContratoController {
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
+        }
+    }
+
+    def cancelar(Long id){
+        if (id == null) {
+            notFound()
+            return
+        }
+
+        def contrato = Contrato.get(id)
+
+        if(contrato.cancelado){
+            flash.message= "Este contrato [Número: ${contrato?.numero}] ya se encuentra cancelado..."
+            redirect(view:'index', params:[offset: params?.offset, max: params?.max, numero: params?.numero, vendedor: params?.vendedor, comprador: params?.comprador, abierto: params?.abierto, cancelado: params?.cancelado])
+            return
+        }
+
+        def usuarioInstance = null
+        try { usuarioInstance = Usuario.get(springSecurityService.principal.id) } catch (e) { }
+
+        contrato.cancelado = true
+        contrato.fechaCancelada = new Date()
+        contrato.usuarioCancelo = usuarioInstance
+
+        try {
+            contratoService.save(contrato)
+        } catch (ValidationException e) {
+            respond contrato.errors, view:'index', params:[offset: params?.offset, max: params?.max, numero: params?.numero, vendedor: params?.vendedor, comprador: params?.comprador, abierto: params?.abierto, cancelado: params?.cancelado]
+            return
+        }
+
+        //Marca lotes como Vendido = true
+        if(contrato.lotes.size() > 0) updateLotes.call(contrato.lotes, false)
+
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'contrato.label', default: 'Contrato'), contrato.id])
+                redirect contrato
+            }
+            '*'{ respond contrato, [status: OK] }
         }
     }
 
