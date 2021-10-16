@@ -33,9 +33,9 @@ class Contrato {
         costo (nullable: false, blank: false)
         enganche (nullable: true, blank: true)
         lotes (nullable: true, blank: false)
-        cerrado (nullable: true, blank: true)
-        usuarioCerro (nullable: true, blank: true)
-        fechaCerrado (nullable: true, blank: true)
+        cancelado (nullable: true, blank: true)
+        usuarioCancelo (nullable: true, blank: true)
+        fechaCancelada (nullable: true, blank: true)
     }
     
     
