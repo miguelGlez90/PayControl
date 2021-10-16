@@ -34,10 +34,7 @@
                             <input type="text" name="ubicacion" id="ubicacion" class="form-control" value="${params?.ubicacion ? params?.ubicacion : ''}" placeholder="Ubicación">
                         </div>
 
-                    </div>
-
-                    <div class="form-row">
-                        <div class="col-6">
+                        <div class="col">
                             <label for="vendido">Vendido</label>
                             <g:select name="vendido" id="vendido" from="${[[id: true, value: "SI"],[id: false, value: "NO"]]}" optionKey="${{it.id}}" optionValue="${{it.value}}" value="${params?.vendido}" noSelection="[null: '-Todos-']" class="form-control"/>
                         </div>
