@@ -73,7 +73,8 @@
                             <g:sortableColumn property="fecha" title="Fecha" />
                             <g:sortableColumn property="creadoPor" title="Creado Por" />
                             <th scope="col">&nbsp;</th>
-                            <!--th scope="col">&nbsp;</th-->
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
                             <th scope="col">&nbsp;</th>
                         </tr>
                         </thead>
@@ -107,6 +108,14 @@
                                 <g:form resource="${cobro}" action="show" method="POST">
                                     <button type="submit" class="btn btn-outline-info btn-rounded ripple-surface ripple-surface-dark btn-sm">
                                         VER DETALLE
+                                    </button>
+                                </g:form>
+                            </td>
+                            
+                            <td>
+                                <g:form resource="${cobro}" target="_blank" action="downloadRecibo" params="[id: cobro?.id]" method="POST">
+                                    <button type="submit" class="btn btn-outline-success btn-rounded ripple-surface ripple-surface-dark btn-sm">
+                                        <i class="fas fa-file-pdf"></i>&nbsp; RECIBO
                                     </button>
                                 </g:form>
                             </td>

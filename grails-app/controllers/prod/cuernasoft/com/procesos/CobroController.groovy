@@ -1,16 +1,22 @@
 package prod.cuernasoft.com.procesos
 
 import grails.validation.ValidationException
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import static org.springframework.http.HttpStatus.*
 import java.util.Formatter;
+import prod.cuernasoft.com.catalogos.Lote
 import prod.cuernasoft.com.seguridad.Usuario;
+import grails.plugins.jasper.JasperExportFormat
+import grails.plugins.jasper.JasperReportDef
+import com.utilerias.NumeroLetra
 
 class CobroController {
     def IEmpresaService, springSecurityService
 
     CobroService cobroService
     ContratoService contratoService
+    def jasperService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -234,6 +240,87 @@ class CobroController {
         
         iCount = (results.size() + 1)
         
-        return "Cobro No. " + String.valueOf(obj.format("%02d", iCount));
+        return "Recibo No. " + String.valueOf(obj.format("%03d", iCount));
+    }
+    
+    def stringToDecimal = {monto->
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        String formatted = decimalFormat.format(monto);
+        return "\$" + formatted;
+    }
+    
+    def downloadRecibo(){
+        def nombreReporte = "comprobanteCobro.jasper"
+        def nameLogo = ""
+        def path = ""
+        def empresaInstance = null
+        def iNumeroLetra = new NumeroLetra()
+        def infoLotesReport = "LOTE: "
+        def periodoReport = ""
+        String[] meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "setiembre", "octubre", "noviembre", "diciembre"];
+        
+        try {
+            try{ empresaInstance = IEmpresaService.empresa(request) }catch(e){e.printStackTrace()}
+            if(!empresaInstance){ response.status = 404; return }
+            if(empresaInstance){
+                nameLogo = "logo" + empresaInstance.id + ".png"
+                path = "grails-app\\assets\\images\\" + nameLogo
+            }
+            
+            def cobro
+            try{cobro = Cobro.get(params?.id as Long) }catch(e){ }
+
+            if(!cobro){ render "Cobro no encontrado"; return true; }
+            
+            //Valida sistema operativo y variable de entorno
+            if (grails.util.Environment.current.name.toUpperCase() != "DEVELOPMENT") {
+                def lvarOS = System.getProperty("os.name")
+                if(lvarOS.toUpperCase().contains("WINDOWS")){
+                    def basePath = grailsApplication.mainContext.servletContext.getRealPath('assets');
+                    path = basePath + "\\logo\\" + nameLogo
+                } else {
+                    path = empresaInstance.logo + "/" + nameLogo   //Production
+                }                
+            }
+            
+            //Obteniendo informacion de lotes
+            def contract = cobro.contrato
+            if(contract.lotes.size() == 1){
+                infoLotesReport = "LOTE: "
+                for (lote in contract.lotes) {
+                    infoLotesReport = infoLotesReport + lote.identificador + " UBIC. " + lote.ubicacion
+                }
+            } else if(contract.lotes.size() > 1){
+                infoLotesReport = "LOTES: "
+                for (lote in contract.lotes) {
+                    infoLotesReport = infoLotesReport + lote.identificador + " UBIC. " + lote.ubicacion + ", "
+                }
+                infoLotesReport = infoLotesReport.substring(0, infoLotesReport.length() - 2)
+            }
+            
+            //Armando el periodo
+            periodoReport = meses[cobro.fecha.getAt(Calendar.MONTH)] + " " + cobro.fecha.getAt(Calendar.YEAR);
+            //Definicion de los parametros del reporte.
+            def parametros = [:]
+            parametros.empresaId = empresaInstance?.id?.toString();
+            parametros.logoPath = path;
+            parametros.cobroId = cobro.id;
+            parametros.concepto = "PAGO DE MENSUALIDAD NO. " + cobro.folio.replace("Recibo No. 0", "") + "\n(" + infoLotesReport.toUpperCase() + ")\nCORRESPONDIENTE A " + periodoReport.toUpperCase();
+            parametros.precioUnitario = stringToDecimal.call(cobro.monto);
+            parametros.cantidadLetra = iNumeroLetra.convierteMontoALetras(cobro.monto)
+            
+            def reportDef = new JasperReportDef(name:nombreReporte, fileFormat: JasperExportFormat.PDF_FORMAT, parameters: parametros)
+            def pdfData = jasperService.generateReport(reportDef).toByteArray()
+            
+            //cobro.folio
+            def filename = cobro.folio + ".pdf"
+        
+            response.setHeader("Content-disposition", "filename=${filename}")
+            response.contentType = 'application/pdf'
+            response.outputStream << pdfData
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
