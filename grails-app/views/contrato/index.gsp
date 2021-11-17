@@ -79,7 +79,6 @@
                     <table class="table table-hover table-sm table-striped">
                         <thead>
                         <tr>
-                            <g:sortableColumn property="id" title="id" />
                             <g:sortableColumn property="numero" title="Número" />
                             <g:sortableColumn property="fecha" title="Fecha Registrado" />
                             <g:sortableColumn property="vendedor" title="Vendedor" />
@@ -88,17 +87,16 @@
                             <g:sortableColumn property="costo" title="Costo" />
                             <g:sortableColumn property="enganche" title="Enganche" />
                             <g:sortableColumn property="deudaActual" title="Deuda Actual" />
-                            <th scope="col">&nbsp;</th>
-                            <th scope="col">&nbsp;</th>
-                            <th scope="col">&nbsp;</th>
-                            <th scope="col">&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                         <g:each in="${contratoList}" var="contrtado" status="i">
                             <tr>
-                                <td>${contrtado?.id}</td>
                                 <td>${contrtado?.numero}</td>
                                 <td><g:formatDate format="dd/MM/yyyy" date="${contrtado?.fecha}"/></td>
                                 <td>${contrtado?.vendedor}</td>
@@ -140,7 +138,7 @@
                                 <td>
                                     <g:form resource="${contrtado}" action="show" method="POST">
                                         <button type="submit" class="btn btn-outline-info btn-rounded ripple-surface ripple-surface-dark btn-sm">
-                                            VER DETALLE
+                                            DETALLE
                                         </button>
                                     </g:form>
                                 </td>
