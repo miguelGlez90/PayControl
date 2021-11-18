@@ -38,18 +38,24 @@ class BootStrap {
     }
     
     private static void createEmpresaDefault() {
-        def iEmpresa = Empresa.findByMarca('local.paycontrol.com')
-        println "iEmpresa: ${iEmpresa?.id}"
-        if(!iEmpresa){
-            println"creando empresa..."
-            iEmpresa = new Empresa()
-            iEmpresa.nombre = "Demos SA"
-            iEmpresa.razonSocial = "Empresa Demo S.A de C.V."
-            iEmpresa.marca = 'local.paycontrol.com'
-            iEmpresa.estado = 'Morelos'
-            iEmpresa.codigoPostal = "62588"
-            iEmpresa.save()
+        def count = Empresa.count()
+        if(count > 0) return ;
+        
+        def lmarca = "local.paycontrol.com"
+        if (grails.util.Environment.current.name.toUpperCase() != "DEVELOPMENT") {
+            println("VARIABLE DE ENTORNO:  "+grails.util.Environment.current.name.toUpperCase())
+            lmarca = "dm.cuerna-soft.com"
         }
+        
+        println"creando empresa..."
+        def iEmpresa = new Empresa()
+        iEmpresa = new Empresa()
+        iEmpresa.nombre = "Demos SA"
+        iEmpresa.razonSocial = "Empresa Demo S.A de C.V."
+        iEmpresa.marca = lmarca
+        iEmpresa.estado = 'Morelos'
+        iEmpresa.codigoPostal = "62588"
+        iEmpresa.save()
     }
     
     private static void createRoles() {

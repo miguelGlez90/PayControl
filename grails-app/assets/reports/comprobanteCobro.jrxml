@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="ireport.zoom" value="1.771561000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="672"/>
+	<property name="ireport.y" value="0"/>
 	<style name="textBold_Style" forecolor="#000000" fontName="Arial" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 	<parameter name="empresaId" class="java.lang.String"/>
 	<parameter name="logoPath" class="java.lang.String"/>
@@ -30,7 +30,7 @@ UCASE(cp.nombre) AS nombreComprador,
 UCASE(cp.domicilio) AS domicilioComprador,
 cp.telefono AS telefonoComprador,
 co.numero as numeroContrato
-FROM cuernaso_paycontroldev.empresa e
+FROM empresa e
 INNER JOIN cobro c ON c.empresa_id = e.id AND e.id = c.empresa_id
 INNER JOIN contrato co ON co.id = c.contrato_id AND e.id = co.empresa_id
 INNER JOIN vendedor ve ON ve.id = co.vendedor_id AND e.id = ve.empresa_id
@@ -142,19 +142,11 @@ AND c.id = $P{cobroId}]]>
 				</textElement>
 				<text><![CDATA[FECHA:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="101" y="64" width="250" height="26" uuid="08d78d87-8e0c-4abb-bbb7-ccd076862177"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="147" y="89" width="204" height="20" uuid="68df2aaf-a464-40e7-aa66-8b122ec701ad"/>
-				<textFieldExpression><![CDATA[$F{telefonoEmpresa}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="101" y="89" width="46" height="20" uuid="d9b9b6d7-9745-4be7-b1ce-fcfc69ed0d9e"/>
-				<text><![CDATA[Teléfono:]]></text>
-			</staticText>
 			<textField>
 				<reportElement style="textBold_Style" x="101" y="34" width="250" height="14" uuid="54487344-667d-4719-bdbd-160d0ea30c3c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -171,7 +163,7 @@ AND c.id = $P{cobroId}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["RFC:" + $F{nombreVendedor}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["RFC: " + $F{rfcVendedor}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="textBold_Style" x="366" y="92" width="171" height="25" uuid="6dbd64e2-7205-497f-9936-4cca899ea2f2">
